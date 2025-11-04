@@ -37,6 +37,11 @@ public int getPartySize(){
 
 }
 
+public void setTime(){
+
+     this.time = time;
+}
+
 public void setDay(){
 
     this.day = day; 
