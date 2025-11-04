@@ -36,11 +36,12 @@ public class Seating {
         public void displaySeats() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    System.out.print(seats[i][j] ? "[O]" : "[X]");
+                    System.out.print(seats[i][j] ? "[O]" : "[X]"); //X represents the taken seats and O represents the open ones
                 }
                 System.out.println();
             }
         }
 }
+
 
 
