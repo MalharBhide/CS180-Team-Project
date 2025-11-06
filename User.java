@@ -90,6 +90,21 @@ public class User implements UserInterface {
                     break;
                 case "3":
                     // login(sc);
+                    System.out.println("Enter your Username:");
+                    String loginUsername = sc.nextLine();
+                    System.out.println("Enter your Password:");
+                    String loginPassword = sc.nextLine();
+                    boolean loginSuccess = false;
+                    for (int i = 0; i < userList.size(); i++) {
+                        if (userList.get(i).getUsername().equals(loginUsername) && userList.get(i).getPassword().equals(loginPassword)) {
+                            System.out.println("Login successful! Welcome, " + loginUsername + "!");
+                            loginSuccess = true;  
+                            break;
+                        }
+                    }
+                    if (!loginSuccess) {
+                        System.out.println("Login failed. Incorrect username or password.");
+                    }
                     break;
                 case "4":
                     // createReservation(sc);
