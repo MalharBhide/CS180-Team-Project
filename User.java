@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @author Malhar Bhide
  * @version October 30, 2025
  */
-public class User {
+public class User implements UserInterface {
     private String username;
     private String password;
     private static ArrayList<User> userList = new ArrayList<User>();
@@ -28,11 +28,11 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    public static void removeUser(User user) {
-        userList.remove(user);
-    }
     public static void addUser(User user) {
         userList.add(user);
+    }
+    public static void removeUser(User user) {
+        userList.remove(user);
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
