@@ -1,90 +1,111 @@
 /*
-* CS 180 Team Project 
-* 
-*
-*
-* @author Himangi Nepal
-* @version 1.0
-*/
+ * CS 180 Team Project
+ *
+ *
+ *
+ * @author Himangi Nepal
+ * @version 1.0
+ */
 
-public class Reservation{
+public class Reservation {
 
-private int time; 
-private String day;
-private int partySize;
+    private int time;
+    private String day;
+    private int partySize;
+    private Seating seating;
+    private boolean isBooked;
 
-public Reservation(int time, String day, int partySize){
+    public Reservation(int time, String day, int partySize, Seating seating) {
+        this.time = time;
+        this.day = day;
+        this.partySize = partySize;
+        this.seating = seating;
+    }
 
-this.time = time; 
-this.day = day; 
-this.partySize = partySize; 
+    // Ability to select a day for the reservation
+    // Ability to select a time for the reservation
+    // Ability to view all open seats at the given time
+    // Ability to book varying party sizes
+    // View pricing - if applicable
+    // Cancel reservations
 
-}
+    public int getTime() {
+        return time;
+    }
 
-// Ability to select a day for the reservation
-//Ability to select a time for the reservation
-//Ability to view all open seats at the given time
-//Ability to book varying party sizes
-//View pricing - if applicable
-//Cancel reservations
+    public String getDay() {
+        return day;
+    }
 
-public int getTime(){
+    public int getPartySize() {
+        return partySize;
+    }
 
-     return time;
+    public void setTime(int time) {
+        this.time = time;
+    }
 
-}
+    public void setDay(String day) {
+        this.day = day;
+    }
 
-public String getDay(){
+    public void setPartySize(int partySize) {
+        this.partySize = partySize;
+    }
 
-    return day; 
+    public void viewOpenSeats() {
+        seating.displaySeats();
+    }
 
-}
+    public void bookReservation() {
 
-public int getPartySize(int partySize){
+        if (isBooked) {
+            System.out.println("Reservation already booked for " + day + " at " + time + ".");
+            return;
+        }
 
-    return partySize; 
+        int seatsReserved = 0;
+        // need to add separate getter and setter methods in the seating class
+        // to iterate through 2d array
+        for (int i = 0; i < seating.getRows(); i++) {
+            for (int j = 0; j < seating.getCols(); j++) {
 
-}
+                if (seating.isAvailable(i, j)) { // iterate through the array and see if the seats are available
+                    seating.reserveSeat(i, j); // reserve if it's available
+                    seatsReserved++;
+                }
 
-public int setTime(int time){
+                if (seatsReserved == partySize) { // check if desired num of seats are booked
+                    isBooked = true;
+                    System.out.println("Thank You! Your reservation is now confirmed for "
+                            + partySize + " on " + day + " at " + time);
+                    return;
+                }
 
-    this.time= time;
+            } // end 2nd for loop
+        } // end 1st for loop
+    } // end method
 
-}
+    public void cancelReservation() {
 
-public void setDay(String day){
+        if (!isBooked) {
+            System.out.println("There is no reservation to cancel.");
+            return;
+        }
+        else {
+            isBooked = false;
+            System.out.println("Reservation successfully canceled for " + day + " at " + time); //need to add string formating for time
+        }
+    }
 
-    this.day = day; 
-    
-}
+    // Main for testing
+    public static void main(String[] args) {
+        Seating seating = new Seating(3, 5);
+        Reservation r1 = new Reservation(7, "Friday", 4, seating);
 
-public void setPartySize(){
-
-    this.partySize = partySize; 
-
-}
-
-public void cancelReservation(){
-
-
-     //check if the reservation is booked, if true then allow them to cancel,
-     //else return that the reservation hasn't been booked 
-
-    
-
-}
-
-
-public void bookReservation(){
-
-//select a time, day and then 
-//access the array of available seats 
-//choose party size
-//if seats are available, reserve seats, else, return message that seats are not available
-
-}
-
-
-
-
+        r1.viewOpenSeats();
+        r1.bookReservation();
+        r1.viewOpenSeats();
+        r1.cancelReservation();
+    }
 }
