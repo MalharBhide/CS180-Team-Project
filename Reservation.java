@@ -1,3 +1,12 @@
+/*
+* CS 180 Team Project 
+* 
+*
+*
+* @author Himangi Nepal
+* @version 1.0
+*/
+
 public class Reservation{
 
 private int time; 
@@ -31,13 +40,19 @@ public String getDay(){
 
 }
 
-public int getPartySize(){
+public int getPartySize(int partySize){
 
     return partySize; 
 
 }
 
-public void setDay(){
+public int setTime(int time){
+
+    this.time= time;
+
+}
+
+public void setDay(String day){
 
     this.day = day; 
     
@@ -51,12 +66,13 @@ public void setPartySize(){
 
 public void cancelReservation(){
 
+
      //check if the reservation is booked, if true then allow them to cancel,
      //else return that the reservation hasn't been booked 
+
     
 
 }
-
 
 
 public void bookReservation(){
