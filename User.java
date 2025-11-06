@@ -1,3 +1,5 @@
+import java.util.Scanner;
+import java.util.ArrayList;
 /**
  * Team 1 Project
  * Creates a User with username and password.
@@ -9,6 +11,7 @@
 public class User {
     private String username;
     private String password;
+    private static ArrayList<User> userList = new ArrayList<User>();
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -25,8 +28,65 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    public void deleteUser() {
-        this.username = null;
-        this.password = null;
+    public static void removeUser(User user) {
+        userList.remove(user);
+    }
+    public static void addUser(User user) {
+        userList.add(user);
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Welcome to the Reservation System!");
+        System.out.println("Please select an option:");
+        System.out.println("1. Create a User");
+        System.out.println("2. Remove a User");
+        System.out.println("3. Login");
+        System.out.println("4. Create a Reservation");
+        String option = sc.nextLine();
+        switch(option) {
+            case "1":
+                String username = "";
+                System.out.println("Enter a Username:");
+                while (true) {
+                    boolean foundDuplicate = false;
+                    username = sc.nextLine();
+                    for (int i = 0; i < userList.size(); i++) {
+                        if (userList.get(i).getUsername().equals(username)) {
+                            System.out.println("Username already exists. Please try again.");
+                            foundDuplicate = true;
+                            break;
+                        }
+                    }
+                    if (!foundDuplicate) {
+                        break; 
+                    }
+                }
+                System.out.println("Enter a Password:");
+                String password = sc.nextLine();
+                User newUser = new User(username, password);
+                addUser(newUser);
+                System.out.println("User created successfully!");
+                break;
+            case "2":
+                System.out.println("Enter the Username of the User to remove:");
+                String userToRemove = sc.nextLine();
+                System.out.println("Enter the Password of the User to remove:");
+                String passToRemove = sc.nextLine();
+                for (int i = 0; i < userList.size(); i++) {
+                    if (userList.get(i).getUsername().equals(userToRemove) && userList.get(i).getPassword().equals(passToRemove)) {
+                        userList.remove(i);
+                        System.out.println("User removed successfully!");
+                        break;
+                    }
+                }
+                // removeUser(sc);
+                break;
+            case "3":
+                // login(sc);
+                break;
+            case "4":
+                // createReservation(sc);
+                break;
+        }
     }
 }
