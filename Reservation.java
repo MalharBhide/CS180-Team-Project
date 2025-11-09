@@ -11,20 +11,20 @@ import java.util.Scanner;
 
 public class Reservation implements ReservationInterface {
 
-    private int time;
+    private String time; //changed int to string in order to take input for am/pm
     private String day;
     private int partySize;
     private Seating seating;
     private boolean isBooked;
 
-    public Reservation(int time, String day, int partySize, Seating seating) {
+    public Reservation(String time, String day, int partySize, Seating seating) {
         this.time = time;
         this.day = day;
         this.partySize = partySize;
         this.seating = seating;
     }
 
-    public int getTime() {
+    public String getTime() {
         return time;
     }
 
@@ -36,7 +36,7 @@ public class Reservation implements ReservationInterface {
         return partySize;
     }
 
-    public void setTime(int time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
@@ -87,19 +87,5 @@ public class Reservation implements ReservationInterface {
         System.out.println("There is no reservation to cancel.");
         return;
     }
-
-    for (int i = 0; i < seating.getRows(); i++) {
-        for (int j = 0; j < seating.getCols(); j++) {
-            // example logic to "free" reserved seats if needed
-            if (!seating.isAvailable(i, j)) {
-                // you’d add an “unreserveSeat()” method in Seating
-            }
-        }
-    }
-
-    isBooked = false;
-    System.out.println("Reservation canceled for " + day + " at " + time); 
-    }
-
-    
+   }
 }

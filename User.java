@@ -38,7 +38,6 @@ public class User implements UserInterface {
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-<<<<<<< HEAD
         Seating seating = new Seating(); // shared seating layout to make new reservations
         System.out.println("Welcome to the Reservation System!");
         System.out.println("Please select an option:");
@@ -55,48 +54,6 @@ public class User implements UserInterface {
                 while (true) {
                     boolean foundDuplicate = false;
                     username = sc.nextLine();
-=======
-        String option = "";
-        System.out.println("Welcome to the Reservation System!");
-        while (!option.equals("5")) {
-            System.out.println("Please select an option:");
-            System.out.println("1. Create a User");
-            System.out.println("2. Remove a User");
-            System.out.println("3. Login");
-            System.out.println("4. Create a Reservation");
-            System.out.println("5. Exit");
-            option = sc.nextLine();
-            switch(option) {
-                case "1":
-                    String username = "";
-                    System.out.println("Enter a Username:");
-                    while (true) {
-                        boolean foundDuplicate = false;
-                        username = sc.nextLine();
-                        for (int i = 0; i < userList.size(); i++) {
-                            if (userList.get(i).getUsername().equals(username)) {
-                                System.out.println("Username already exists. Please try again.");
-                                foundDuplicate = true;
-                                break;
-                            }
-                        }
-                        if (!foundDuplicate) {
-                            break; 
-                        }
-                    }
-                    System.out.println("Enter a Password:");
-                    String password = sc.nextLine();
-                    User newUser = new User(username, password);
-                    addUser(newUser);
-                    System.out.println("User created successfully!");
-                    break;
-                case "2":
-                    boolean userRemoved = false;
-                    System.out.println("Enter the Username of the User to remove:");
-                    String userToRemove = sc.nextLine();
-                    System.out.println("Enter the Password of the User to remove:");
-                    String passToRemove = sc.nextLine();
->>>>>>> 2102196b09db910049ba9a40ab4286600fa1116d
                     for (int i = 0; i < userList.size(); i++) {
                         if (userList.get(i).getUsername().equals(userToRemove) && userList.get(i).getPassword().equals(passToRemove)) {
                             userList.remove(i);
@@ -123,7 +80,6 @@ public class User implements UserInterface {
                             break;
                         }
                     }
-<<<<<<< HEAD
                 }
                 // removeUser(sc);
                 break;
@@ -132,6 +88,7 @@ public class User implements UserInterface {
                 break;
             case "4":
                 // createReservation(sc);
+                System.out.println("Enter a reservation time")
               
                 System.out.println("How many people are in your party? Please enter an integer.");
                 size = scanner.nextInt(); 
@@ -148,24 +105,6 @@ public class User implements UserInterface {
                 break;
             case "5":
                 //cancelReservation
-              
-
-=======
-                    if (!loginSuccess) {
-                        System.out.println("Login failed. Incorrect username or password.");
-                    }
-                    break;
-                case "4":
-                    // createReservation(sc);
-                    break;
-                case "5":
-                    System.out.println("Exiting the system. Goodbye!");
-                    break;
-                default:
-                    System.out.println("Invalid option. Please try again.");
-                    break; 
-            }
->>>>>>> 2102196b09db910049ba9a40ab4286600fa1116d
         }
     }
 }
