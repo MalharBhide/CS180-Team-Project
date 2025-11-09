@@ -1,17 +1,15 @@
 /*
  * CS 180 Team Project
  *
- *
- *
  * @author Himangi Nepal
  * @version 1.0
  */
 
-import java.util.Scanner; 
+import java.util.Scanner;
 
 public class Reservation implements ReservationInterface {
 
-    private String time; //changed int to string in order to take input for am/pm
+    private String time; // changed int to String to allow am/pm input
     private String day;
     private int partySize;
     private Seating seating;
@@ -22,6 +20,7 @@ public class Reservation implements ReservationInterface {
         this.day = day;
         this.partySize = partySize;
         this.seating = seating;
+        this.isBooked = false;
     }
 
     public String getTime() {
@@ -53,39 +52,40 @@ public class Reservation implements ReservationInterface {
     }
 
     public void bookReservation() {
-        
         if (isBooked) {
             System.out.println("Reservation already booked for " + day + " at " + time + ".");
             return;
         }
 
         int seatsReserved = 0;
-        // need to add separate getter and setter methods in the seating class
-        // to iterate through 2d array
+
+        // Iterate through 2D array to reserve seats
         for (int i = 0; i < seating.getRows(); i++) {
             for (int j = 0; j < seating.getCols(); j++) {
 
-                if (seating.isAvailable(i, j)) { // iterate through the array and see if the seats are available
-                    seating.reserveSeat(i, j); // reserve if it's available
+                if (seating.isAvailable(i, j)) { 
+                    seating.reserveSeat(i, j); 
                     seatsReserved++;
                 }
 
-                if (seatsReserved == partySize) { // check if desired num of seats are booked
+                if (seatsReserved == partySize) { 
                     isBooked = true;
-                    System.out.println("Thank You! Your reservation is now confirmed for "
-                            + partySize + " on " + day + " at " + time);
+                    System.out.println("Thank you! Your reservation is now confirmed for "
+                            + partySize + " on " + day + " at " + time + ".");
                     return;
                 }
-                //write the reservation
+            }
+        }
 
-            } // end 2nd for loop
-        } // end 1st for loop
-    } // end method
+        System.out.println("Not enough available seats for a party of " + partySize + ".");
+    }
 
     public void cancelReservation() {
-    if (!isBooked) {
-        System.out.println("There is no reservation to cancel.");
-        return;
+        if (!isBooked) {
+            System.out.println("There is no reservation to cancel.");
+        } else {
+            isBooked = false;
+            System.out.println("Your reservation for " + day + " at " + time + " has been canceled.");
+        }
     }
-   }
 }

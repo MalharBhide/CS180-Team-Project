@@ -88,22 +88,40 @@ public class User implements UserInterface {
                 break;
             case "4":
                 // createReservation(sc);
-                System.out.println("Enter a reservation time")
-              
-                System.out.println("How many people are in your party? Please enter an integer.");
-                size = scanner.nextInt(); 
+                System.out.println("Enter a reservation time");
+                String time = sc.nextLine(); 
                 System.out.println("What day would you like to have your reservation?");
-                dayf = scanner.nextLine(); 
-                System.out.println("What time would you like to reserve?")
-                timef = scanner.nextLine(); 
-                Reservation br = new 
-                
+                String day = sc.nextLine(); 
+                System.out.println("How many people are in your party? Please enter an integer.");
+                int partySize = sc.nextInt(); 
+                sc.nextLine(); 
+                Reservation newReservation = new Reservation (time,day, partySize, seating);
 
+                newReservation.bookReservation();
+                reservations.add(newReservation); //add so it can be canceled later
+                break; 
 
-
-
-                break;
             case "5":
+                System.out.println("Enter reservation day: "); 
+                String cancelDay = sc.nextLine(); 
+                System.out.print("Enter reservation time"); 
+                String cancelTime = sc.nextLine(); 
+
+                boolean found = false; 
+                for (int i= 0; i < reservations.size(); i++){
+                    Reservation r = reservations.get(i); //iterate through reservations array 
+                    if (r.getDay().equalsIgnoreCase(cancelDay) && 
+                        r.getTime().equalsIgnoreCase(cancelTime)){
+                        r.cancelReservation(); 
+                        reservations.remove(i); 
+                        found = true; 
+                        break; 
+                    }
+                }
+                if (!found){
+                    System.out.println("No reservation found for" + cancelDay + "at" + cancelTime + ".");
+                }
+                break;
                 //cancelReservation
         }
     }
