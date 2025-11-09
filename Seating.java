@@ -1,101 +1,70 @@
-<<<<<<< HEAD
-public class Seating {
-        private int rows;
-        private int cols;
-        private boolean[][] seats;
+/**
+ * CS 180 Project 4
+ *
+ * @author Laila Lone
+ * @version October 30, 2025
+ */
+public class Seating implements SeatInterface {
+    private static final int ROWS = 10;  
+    private static final int COLS = 10;  
+    private boolean[][] seats;
 
-        public Seating(int rows, int cols) {
-            this.rows = rows;
-            this.cols = cols;
-            this.seats = new boolean[rows][cols];
+    public Seating() {
+        this.seats = new boolean[ROWS][COLS];
 
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    seats[i][j] = true;
-                }
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
+                seats[i][j] = true;
             }
         }
+    }
 
-        public int getNumberOfSeats() {
-            return rows * cols;
+    @Override
+    public int getNumberOfSeats() {
+        return ROWS * COLS;
+    }
+
+    @Override
+    public int getRows() {
+        return ROWS;
+    }
+
+    @Override
+    public int getCols() {
+        return COLS;
+    }
+
+    @Override
+    public boolean isAvailable(int row, int col) {
+        if (row < 0 || row >= ROWS || col < 0 || col >= COLS) {
+            System.out.println("Invalid seat location: (" + row + ", " + col + ")");
+            return false;
         }
+        return seats[row][col];
+    }
 
-        public boolean isAvailable(int row, int col) {
-            if (row < 0 || row >= rows || col < 0 || col >= cols)
-                return false;
-            return seats[row][col];
-        }
-
-        public boolean reserveSeat(int row, int col) {
-            if (isAvailable(row, col)) {
-                seats[row][col] = false;
-                return true;
+    @Override
+    public boolean reserveSeat(int row, int col) {
+        if (!isAvailable(row, col)) {
+            if (row >= 0 && row < ROWS && col >= 0 && col < COLS) {
+                System.out.println("Seat (" + row + ", " + col + ") is already taken.");
             }
             return false;
         }
 
-        public void displaySeats() {
-            System.out.println("[O] = Open   [X] = Taken\n");  
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    System.out.print(seats[i][j] ? "[O]" : "[X]"); //X represents the taken seats and O represents the open ones
-                }
-                System.out.println();
+        seats[row][col] = false;
+        System.out.println("Seat (" + row + ", " + col + ") successfully reserved.");
+        return true;
+    }
+
+    @Override
+    public void displaySeats() {
+        System.out.println("[O] = Open   [X] = Taken\n");
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
+                System.out.print(seats[i][j] ? "[O]" : "[X]");
             }
+            System.out.println();
         }
+    }
 }
-
-
-
-
-=======
-public class Seating {
-        private int rows;
-        private int cols;
-        private boolean[][] seats;
-
-        public Seating(int rows, int cols) {
-            this.rows = rows;
-            this.cols = cols;
-            this.seats = new boolean[rows][cols];
-
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    seats[i][j] = true;
-                }
-            }
-        }
-
-        public int getNumberOfSeats() {
-            return rows * cols;
-        }
-
-        public boolean isAvailable(int row, int col) {
-            if (row < 0 || row >= rows || col < 0 || col >= cols)
-                return false;
-            return seats[row][col];
-        }
-
-        public boolean reserveSeat(int row, int col) {
-            if (isAvailable(row, col)) {
-                seats[row][col] = false;
-                return true;
-            }
-            return false;
-        }
-
-        public void displaySeats() {
-            System.out.println("[O] = Open   [X] = Taken\n");  
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    System.out.print(seats[i][j] ? "[O]" : "[X]"); //X represents the taken seats and O represents the open ones
-                }
-                System.out.println();
-            }
-        }
-}
-
-
-
-
->>>>>>> 52fd06adf054f82a5dd3db0298f31e28e03351d5
