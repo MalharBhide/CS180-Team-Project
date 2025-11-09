@@ -42,13 +42,13 @@ public class User implements UserInterface {
         System.out.println("Welcome to the Reservation System!");
         System.out.println("Please select an option:");
         System.out.println("1. Create a User");
-        System.out.println("2. Remove a User");
+        System.out.println("2. Remove a User"); //fix cases for here 
         System.out.println("3. Login");
         System.out.println("4. Create a Reservation");
         System.out.println("5. Cancel a Reservation");
         String option = sc.nextLine();
         switch(option) {
-            case "1":
+            case "1": 
                 String username = "";
                 System.out.println("Enter a Username:");
                 while (true) {
@@ -88,7 +88,7 @@ public class User implements UserInterface {
                 break;
             case "4":
                 // createReservation(sc);
-                System.out.println("Enter a reservation time");
+                System.out.println("Enter a reservation time ");
                 String time = sc.nextLine(); 
                 System.out.println("What day would you like to have your reservation?");
                 String day = sc.nextLine(); 
@@ -119,7 +119,7 @@ public class User implements UserInterface {
                     }
                 }
                 if (!found){
-                    System.out.println("No reservation found for" + cancelDay + "at" + cancelTime + ".");
+                    System.out.println("No reservation found for " + cancelDay + " at" + cancelTime + ".");
                 }
                 break;
                 //cancelReservation
