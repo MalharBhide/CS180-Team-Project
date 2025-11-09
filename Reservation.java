@@ -7,7 +7,9 @@
  * @version 1.0
  */
 
-public class Reservation {
+import java.util.Scanner; 
+
+public class Reservation implements ReservationInterface {
 
     private int time;
     private String day;
@@ -21,13 +23,6 @@ public class Reservation {
         this.partySize = partySize;
         this.seating = seating;
     }
-
-    // Ability to select a day for the reservation
-    // Ability to select a time for the reservation
-    // Ability to view all open seats at the given time
-    // Ability to book varying party sizes
-    // View pricing - if applicable
-    // Cancel reservations
 
     public int getTime() {
         return time;
@@ -58,7 +53,7 @@ public class Reservation {
     }
 
     public void bookReservation() {
-
+        
         if (isBooked) {
             System.out.println("Reservation already booked for " + day + " at " + time + ".");
             return;
@@ -81,35 +76,30 @@ public class Reservation {
                             + partySize + " on " + day + " at " + time);
                     return;
                 }
+                //write the reservation
 
             } // end 2nd for loop
         } // end 1st for loop
     } // end method
 
     public void cancelReservation() {
+    if (!isBooked) {
+        System.out.println("There is no reservation to cancel.");
+        return;
+    }
 
-        if (!isBooked) {
-            System.out.println("There is no reservation to cancel.");
-            return;
-        }
-        else {
-            isBooked = false;
-            System.out.println("Reservation successfully canceled for " + day + " at " + time); //need to add string formating for time
+    for (int i = 0; i < seating.getRows(); i++) {
+        for (int j = 0; j < seating.getCols(); j++) {
+            // example logic to "free" reserved seats if needed
+            if (!seating.isAvailable(i, j)) {
+                // you’d add an “unreserveSeat()” method in Seating
+            }
         }
     }
 
-    // Main for testing
-    public static void main(String[] args) {
-        Seating seating = new Seating(3, 5);
-        Reservation r1 = new Reservation(7, "Friday", 4, seating);
-
-        r1.viewOpenSeats();
-        r1.bookReservation();
-        r1.viewOpenSeats();
-        r1.cancelReservation();
-
-        //comment
-        
-
+    isBooked = false;
+    System.out.println("Reservation canceled for " + day + " at " + time); 
     }
+
+    
 }

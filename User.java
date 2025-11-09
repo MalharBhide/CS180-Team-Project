@@ -12,6 +12,8 @@ public class User {
     private String username;
     private String password;
     private static ArrayList<User> userList = new ArrayList<User>();
+    private static ArrayList<Reservation> reservations = new ArrayList<>(); // store all reservations
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -36,12 +38,14 @@ public class User {
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        Seating seating = new Seating(); // shared seating layout to make new reservations
         System.out.println("Welcome to the Reservation System!");
         System.out.println("Please select an option:");
         System.out.println("1. Create a User");
         System.out.println("2. Remove a User");
         System.out.println("3. Login");
         System.out.println("4. Create a Reservation");
+        System.out.println("5. Cancel a Reservation");
         String option = sc.nextLine();
         switch(option) {
             case "1":
@@ -86,7 +90,24 @@ public class User {
                 break;
             case "4":
                 // createReservation(sc);
+              
+                System.out.println("How many people are in your party? Please enter an integer.");
+                size = scanner.nextInt(); 
+                System.out.println("What day would you like to have your reservation?");
+                dayf = scanner.nextLine(); 
+                System.out.println("What time would you like to reserve?")
+                timef = scanner.nextLine(); 
+                Reservation br = new 
+                
+
+
+
+
                 break;
+            case "5":
+                //cancelReservation
+              
+
         }
     }
 }
