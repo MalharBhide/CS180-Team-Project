@@ -2,10 +2,11 @@
  * CS 180 Team Project
  *
  * @author Himangi Nepal
- * @version 1.0
+ * @version 1.1
  */
 
 import java.util.Scanner;
+import java.io.*;
 
 public class Reservation implements ReservationInterface, Serializable {
 
@@ -51,33 +52,28 @@ public class Reservation implements ReservationInterface, Serializable {
         seating.displaySeats();
     }
 
+    // modified so that only one seat is reserved per request
     public void bookReservation() {
         if (isBooked) {
             System.out.println("Reservation already booked for " + day + " at " + time + ".");
             return;
         }
 
-        int seatsReserved = 0;
-
-        // Iterate through 2D array to reserve seats
+        // iterate through 2D array to find ONE available seat
         for (int i = 0; i < seating.getRows(); i++) {
             for (int j = 0; j < seating.getCols(); j++) {
 
-                if (seating.isAvailable(i, j)) { 
-                    seating.reserveSeat(i, j); 
-                    seatsReserved++;
-                }
-
-                if (seatsReserved == partySize) { 
+                if (seating.isAvailable(i, j)) {
+                    seating.reserveSeat(i, j);
                     isBooked = true;
-                    System.out.println("Thank you! Your reservation is now confirmed for "
-                            + partySize + " on " + day + " at " + time + ".");
+                    System.out.println("Thank you! Your reservation on "
+                            + day + " at " + time + " is confirmed.");
                     return;
                 }
             }
         }
 
-        System.out.println("Not enough available seats for a party of " + partySize + ".");
+        System.out.println("No available seats for the selected time.");
     }
 
     public void cancelReservation() {
