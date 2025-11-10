@@ -33,9 +33,39 @@ public class User implements UserInterface {
     }
     public static void addUser(User user) {
         userList.add(user);
+        File f = new File("userDatabase.txt");
+        try {
+            FileWriter fw = new FileWriter(f, false);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write("List of Users:");
+            bw.newLine();
+            for (int i = 0; i < userList.size(); i++) {
+                bw.write(userList.get(i).getUsername() + "," + userList.get(i).getPassword());
+                bw.newLine();
+            }
+            bw.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the user database.");
+            e.printStackTrace();
+        }
     }
     public static void removeUser(User user) {
         userList.remove(user);
+        File f = new File("userDatabase.txt");
+        try {
+            FileWriter fw = new FileWriter(f, false);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write("List of Users:");
+            bw.newLine();
+            for (int i = 0; i < userList.size(); i++) {
+                bw.write(userList.get(i).getUsername() + "," + userList.get(i).getPassword());
+                bw.newLine();
+            }
+            bw.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the user database.");
+            e.printStackTrace();
+        }
     }
     public static void saveReservationsToFile() {
     try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("reservations.txt")))) {
@@ -51,66 +81,72 @@ public class User implements UserInterface {
         Scanner sc = new Scanner(System.in);
         Seating seating = new Seating(); // shared seating layout to make new reservations
         System.out.println("Welcome to the Reservation System!");
-        System.out.println("Please select an option:");
-        System.out.println("1. Create a User");
-        System.out.println("2. Remove a User"); //fix cases for here 
-        System.out.println("3. Login");
-        System.out.println("4. Create a Reservation");
-        System.out.println("5. Cancel a Reservation");
-        String option = sc.nextLine();
-        switch(option) {
-            case "1":
-                String username = "";
-                System.out.println("Enter a Username:");
-                while (true) {
-                    boolean foundDuplicate = false;
-                    username = sc.nextLine();
+        while (!option.equals("6")) {
+            System.out.println("Please select an option:");
+            System.out.println("1. Create a User");
+            System.out.println("2. Remove a User"); //fix cases for here 
+            System.out.println("3. Login");
+            System.out.println("4. Create a Reservation");
+            System.out.println("5. Cancel a Reservation");
+            System.out.println("6. Exit");
+            String option = sc.nextLine();
+            switch(option) {
+                case "1":
+                    String username = "";
+                    System.out.println("Enter a Username:");
+                    while (true) {
+                        boolean foundDuplicate = false;
+                        username = sc.nextLine();
+                        for (int i = 0; i < userList.size(); i++) {
+                            if (userList.get(i).getUsername().equals(username)) {
+                                System.out.println("Username already exists. Please try again.");
+                                foundDuplicate = true;
+                                break;
+                            }
+                        }
+                        if (!foundDuplicate) {
+                            break; 
+                        }
+                    }
+                    System.out.println("Enter a Password:");
+                    String password = sc.nextLine();
+                    User newUser = new User(username, password);
+                    addUser(newUser);
+                    System.out.println("User created successfully!");
+                    break;
+                case "2":
+                    boolean userRemoved = false;
+                    System.out.println("Enter the Username of the User to remove:");
+                    String userToRemove = sc.nextLine();
+                    System.out.println("Enter the Password of the User to remove:");
+                    String passToRemove = sc.nextLine();
                     for (int i = 0; i < userList.size(); i++) {
-                        if (userList.get(i).getUsername().equals(username)) {
-                            System.out.println("Username already exists. Please try again.");
-                            foundDuplicate = true;
+                        if (userList.get(i).getUsername().equals(userToRemove) && userList.get(i).getPassword().equals(passToRemove)) {
+                            userList.remove(i);
+                            System.out.println("User removed successfully!");
+                            userRemoved = true;
                             break;
                         }
                     }
-                    if (!foundDuplicate) {
-                        break; 
+                    if (!userRemoved) {
+                        System.out.println("User not found or incorrect password.");
                     }
-                }
-                System.out.println("Enter a Password:");
-                String password = sc.nextLine();
-                User newUser = new User(username, password);
-                addUser(newUser);
-                System.out.println("User created successfully!");
-                break;
-            case "2":
-                boolean userRemoved = false;
-                System.out.println("Enter the Username of the User to remove:");
-                String userToRemove = sc.nextLine();
-                System.out.println("Enter the Password of the User to remove:");
-                String passToRemove = sc.nextLine();
-                for (int i = 0; i < userList.size(); i++) {
-                    if (userList.get(i).getUsername().equals(userToRemove) && userList.get(i).getPassword().equals(passToRemove)) {
-                        userList.remove(i);
-                        System.out.println("User removed successfully!");
-                        userRemoved = true;
-                        break;
+                    break;
+                case "3":
+                    System.out.println("Enter your Username:");
+                    String loginUsername = sc.nextLine();
+                    System.out.println("Enter your Password:");
+                    String loginPassword = sc.nextLine();
+                    boolean loginSuccess = false;
+                    for (int i = 0; i < userList.size(); i++) {
+                        if (userList.get(i).getUsername().equals(loginUsername) && userList.get(i).getPassword().equals(loginPassword)) {
+                            System.out.println("Login successful! Welcome, " + loginUsername + "!");
+                            loginSuccess = true;  
+                            break;
+                        }
                     }
-                }
-                if (!userRemoved) {
-                    System.out.println("User not found or incorrect password.");
-                }
-                break;
-            case "3":
-                System.out.println("Enter your Username:");
-                String loginUsername = sc.nextLine();
-                System.out.println("Enter your Password:");
-                String loginPassword = sc.nextLine();
-                boolean loginSuccess = false;
-                for (int i = 0; i < userList.size(); i++) {
-                    if (userList.get(i).getUsername().equals(loginUsername) && userList.get(i).getPassword().equals(loginPassword)) {
-                        System.out.println("Login successful! Welcome, " + loginUsername + "!");
-                        loginSuccess = true;  
-                        break;
+                    if (!loginSuccess) {
+                        System.out.println("Login failed. Incorrect username or password.");
                     }
                 }
                 if (!loginSuccess) {
@@ -151,12 +187,14 @@ public class User implements UserInterface {
                         found = true; 
                         break; 
                     }
-                }
-                if (!found){
-                    System.out.println("No reservation found for " + cancelDay + " at" + cancelTime + ".");
-                }
-                break;
-                //cancelReservation
+                    if (!found){
+                        System.out.println("No reservation found for " + cancelDay + " at" + cancelTime + ".");
+                    }
+                    break;
+                case "6":
+                    System.out.println("Exiting the system. Goodbye!");
+                    break;
+            }
         }
     }
 }
