@@ -9,15 +9,15 @@
  */
 
 public interface ReservationInterface {
-    
-        public int getTime();
-        
+
+        public String getTime();
+
         public String getDay();
 
         public int getPartySize();
-        
-        public void setTime(int time);
-        
+
+        public void setTime(String time);
+
         public void setDay(String day);
 
         public void setPartySize(int partySize);
@@ -27,5 +27,5 @@ public interface ReservationInterface {
         public void bookReservation();
 
         public void cancelReservation();
-        
+
 }

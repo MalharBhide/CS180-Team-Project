@@ -78,7 +78,7 @@ public class User implements UserInterface {
     
   public static void loadReservations() { //add a load method so that the data persists 
     File file = new File("reservations.dat");
-    if (!file.exists()) return;
+    if (!file.exists()) return; 
 
     try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
         reservations = (ArrayList<Reservation>) ois.readObject();
