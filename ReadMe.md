@@ -23,7 +23,7 @@ Provide clear steps on how to compile and run your project.
 
 ## Class Desciptions 
 
-User.java
+## User.java
 
 ### Functionality:
 The `User` class is responsible for creating and managing individual user accounts. Each `User` object stores a username and password.
@@ -42,7 +42,7 @@ The `Main` class may also create and manipulate `User` objects based on user inp
 
 
 
-Seating.java
+## Seating.java
 
 ### Functionality:
 The `Seating` class keeps track of all seat availability across different days and time slots. 
@@ -58,7 +58,7 @@ invalid inputs (like wrong rows or times) are handled, and the seating display w
 Other classes may access it to view or modify seat availability.
 
 
-Reservation.java
+## Reservation.java
 
 ### Functionality:
 The `Reservation` class handles booking and canceling seat reservations for specific days and times. 
