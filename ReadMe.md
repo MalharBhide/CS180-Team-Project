@@ -6,18 +6,10 @@
 Provide clear steps on how to compile and run your project.
 
 ## Submission Information 
-* Malhar Bhide – Created the GitHub, Played a key role in delegating responsibilities, Debugged and Proofreaded code,
-* Worked on User functionalities and implementing the “Main Menu”, Completed UserInterface.
-* Himangi Nepal – Created Reservation class and Reservation interface. Created Cases 4 and 5 which prompt the user to create a
-* reservation and cancel a reservation. Wrote methods using objectOutputStream to write Reservation and User Objects to the file,
-* as well as Load methods which deserialize these objects in order to be loaded in every time the program is called on, therefore ensuring
-* data persistence. 
-* Laila Lone – designed and implemented seating class and SeatInterface. Worked on 4D array that allows users to make reservations at
-* different days and times. I also implemented my methods with the main program so that the seating chart updates whenever a reservation is created or canceled.
-* Jiyara Bhatia – I wrote all the JUnit test cases for each class to ensure that every part of the program worked correctly
-* and met the project requirements. I also created the outline document in Google Docs to help organize our team’s workflow
-* and structure the project early on. In addition, I was responsible for documenting everything in the README file, clearly
-* explaining each class, its functionality, and how to run and test the program.
+* Malhar Bhide – Created the GitHub, Played a key role in delegating responsibilities, Debugged and Proofreaded code,vWorked on User functionalities and implementing the “Main Menu”, Completed UserInterface.
+* Himangi Nepal – Created Reservation class and Reservation interface. Created Cases 4 and 5 which prompt the user to create a reservation and cancel a reservation. Wrote methods using objectOutputStream to write Reservation and User Objects to the file, as well as Load methods which deserialize these objects in order to be loaded in every time the program is called on, therefore ensuring data persistence. 
+* Laila Lone – designed and implemented seating class and SeatInterface. Worked on 4D array that allows users to make reservations at different days and times. I also implemented my methods with the main program so that the seating chart updates whenever a reservation is created or canceled.
+* Jiyara Bhatia – I wrote all the JUnit test cases for each class to ensure that every part of the program worked correctly and met the project requirements. I also created the outline document in Google Docs to help organize our team’s workflow and structure the project early on. In addition, I was responsible for documenting everything in the README file, clearly explaining each class, its functionality, and how to run and test the program.
 
 
 ## Class Desciptions 
