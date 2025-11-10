@@ -3,7 +3,7 @@
 ---
 
 ## Instructions to Compile and Run
-Provide clear steps on how to compile and run your project.
+To compile and run the project, open the project folder in IntelliJ or any Java IDE and ensure that all .java files are in the same package or directory. Build the project using the “Build Project” option to compile all classes, then run the Main.java file to start the program. To test the functionality, open the test folder and run all JUnit test classes, such as UserTest, SeatingTest, and ReservationTest, to verify that each part of the program works as expected.
 
 ## Submission Information 
 * Malhar Bhide – Created the GitHub, Played a key role in delegating responsibilities, Debugged and Proofreaded code,vWorked on User functionalities and implementing the “Main Menu”, Completed UserInterface.
