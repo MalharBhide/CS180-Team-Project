@@ -6,7 +6,7 @@ import java.io.*;
  * Team 1 Project
  * Creates a User with username and password.
  *
- * @author Malhar Bhide
+ * @author Malhar Bhide 
  * @version October 30, 2025
  */
 public class User implements UserInterface {
@@ -82,7 +82,6 @@ public class User implements UserInterface {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static void loadReservations() { // load method so that data persists
         File file = new File("reservations.dat");
         if (!file.exists()) return;
