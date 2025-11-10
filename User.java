@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.*;
 /**
  * Team 1 Project
  * Creates a User with username and password.
@@ -36,6 +37,16 @@ public class User implements UserInterface {
     public static void removeUser(User user) {
         userList.remove(user);
     }
+    public static void saveReservationsToFile() {
+    try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("reservations.txt")))) {
+        for (Reservation r : reservations) {
+            writer.println(r.getDay() + "," + r.getTime() + "," + r.getPartySize());
+        }
+    } catch (IOException e) {
+        System.out.println("Error writing reservation data: " + e.getMessage());
+    }
+   }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Seating seating = new Seating(); // shared seating layout to make new reservations
@@ -108,7 +119,7 @@ public class User implements UserInterface {
                 break;
             case "4":
                 // createReservation(sc);
-                System.out.println("Enter a reservation time ");
+                System.out.println("Enter a reservation time (e.g 6:00pm)");
                 String time = sc.nextLine(); 
                 System.out.println("What day would you like to have your reservation?");
                 String day = sc.nextLine(); 
@@ -119,12 +130,14 @@ public class User implements UserInterface {
 
                 newReservation.bookReservation();
                 reservations.add(newReservation); //add so it can be canceled later
+                saveReservationsToFile(); // 🧠 Save new reservation
+
                 break; 
 
             case "5":
                 System.out.println("Enter reservation day: "); 
                 String cancelDay = sc.nextLine(); 
-                System.out.print("Enter reservation time"); 
+                System.out.print("Enter reservation time: "); 
                 String cancelTime = sc.nextLine(); 
 
                 boolean found = false; 
@@ -134,6 +147,7 @@ public class User implements UserInterface {
                         r.getTime().equalsIgnoreCase(cancelTime)){
                         r.cancelReservation(); 
                         reservations.remove(i); 
+                        saveReservationsToFile();
                         found = true; 
                         break; 
                     }
