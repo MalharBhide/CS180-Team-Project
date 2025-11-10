@@ -2,12 +2,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Super basic test class for Seating.java
- * testing some main stuff like seat reserving, checking availibility, etc
- * not too fancy just making sure things work kinda right lol
- */
-
 /*
  * CS 180 Team Project
  * ReservationTest
