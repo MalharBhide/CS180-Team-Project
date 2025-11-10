@@ -7,7 +7,7 @@
 
 import java.util.Scanner;
 
-public class Reservation implements ReservationInterface {
+public class Reservation implements ReservationInterface, Serializable {
 
     private String time; // changed int to String to allow am/pm input
     private String day;

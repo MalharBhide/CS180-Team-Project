@@ -67,19 +67,31 @@ public class User implements UserInterface {
             e.printStackTrace();
         }
     }
+
     public static void saveReservationsToFile() {
-    try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("reservations.txt")))) {
-        for (Reservation r : reservations) {
-            writer.println(r.getDay() + "," + r.getTime() + "," + r.getPartySize());
-        }
+    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("reservations.dat"))) {
+        oos.writeObject(reservations);
     } catch (IOException e) {
-        System.out.println("Error writing reservation data: " + e.getMessage());
+        System.out.println("Error saving reservations: " + e.getMessage());
     }
    }
+    
+  public static void loadReservations() { //add a load method so that the data persists 
+    File file = new File("reservations.dat");
+    if (!file.exists()) return;
+
+    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+        reservations = (ArrayList<Reservation>) ois.readObject();
+    } catch (IOException | ClassNotFoundException e) {
+        System.out.println("Error loading reservations: " + e.getMessage());
+    }
+   }
+
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Seating seating = new Seating(); // shared seating layout to make new reservations
+        loadReservations();
         System.out.println("Welcome to the Reservation System!");
         while (!option.equals("6")) {
             System.out.println("Please select an option:");
