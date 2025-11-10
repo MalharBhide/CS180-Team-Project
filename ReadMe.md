@@ -13,8 +13,7 @@ Provide clear steps on how to compile and run your project.
 * as well as Load methods which deserialize these objects in order to be loaded in every time the program is called on, therefore ensuring
 * data persistence. 
 * Laila Lone – designed and implemented seating class and SeatInterface. Worked on 4D array that allows users to make reservations at
-* different days and times. I also implemented my methods with the main program so that the seating chart updates whenever a reservation
-* is created or canceled.
+* different days and times. I also implemented my methods with the main program so that the seating chart updates whenever a reservation is created or canceled.
 * Jiyara Bhatia – I wrote all the JUnit test cases for each class to ensure that every part of the program worked correctly
 * and met the project requirements. I also created the outline document in Google Docs to help organize our team’s workflow
 * and structure the project early on. In addition, I was responsible for documenting everything in the README file, clearly
