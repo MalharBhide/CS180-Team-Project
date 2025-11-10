@@ -191,6 +191,7 @@ public class User implements UserInterface, Serializable {
                     reservations.add(newReservation);
                     saveReservationsToFile();
                     System.out.println("Reservation created successfully!");
+                    seating.displaySeats(day, time);
                     break;
 
                 case "5":
@@ -208,6 +209,7 @@ public class User implements UserInterface, Serializable {
                             reservations.remove(i);
                             saveReservationsToFile();
                             System.out.println("Reservation canceled successfully!");
+                            seating.displaySeats(cancelDay, cancelTime);
                             found = true;
                             break;
                         }
