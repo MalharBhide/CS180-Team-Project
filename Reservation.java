@@ -13,7 +13,7 @@ public class Reservation implements ReservationInterface, Serializable {
     private String time; // changed int to String to allow am/pm input
     private String day;
     private int partySize;
-    private Seating seating;
+    private transient Seating seating; //make transient to fix error in saving objects
     private boolean isBooked;
 
     public Reservation(String time, String day, int partySize, Seating seating) {
