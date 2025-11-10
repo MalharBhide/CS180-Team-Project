@@ -1,4 +1,4 @@
-public interface SeatingInterface {
+public interface SeatInterface {
     int getNumberOfSeats();
     int getRows();
     int getCols();
