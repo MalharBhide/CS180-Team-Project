@@ -49,7 +49,7 @@ public class Reservation implements ReservationInterface, Serializable {
     }
 
     public void viewOpenSeats() {
-        seating.displaySeats();
+        seating.displaySeats(day, time);
     }
 
     // modified so that only one seat is reserved per request
@@ -63,8 +63,8 @@ public class Reservation implements ReservationInterface, Serializable {
         for (int i = 0; i < seating.getRows(); i++) {
             for (int j = 0; j < seating.getCols(); j++) {
 
-                if (seating.isAvailable(i, j)) {
-                    seating.reserveSeat(i, j);
+                if (seating.isAvailable(day, time, i, j)) {
+                    seating.reserveSeat(day, time, i, j);
                     isBooked = true;
                     System.out.println("Thank you! Your reservation on "
                             + day + " at " + time + " is confirmed.");
