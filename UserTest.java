@@ -6,11 +6,15 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * This test class checks that the User class behaves as expected.
+/*
+ * CS 180 Team Project
+ * UserTest
+ *
+ *  This test class checks that the User class behaves as expected.
  * It tests things like creating users, changing usernames/passwords,
  * and adding or removing users from the shared user list.
+ *
+ * @author Jiyara Bhatia
  */
 
 class UserTest {
