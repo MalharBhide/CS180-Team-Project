@@ -6,10 +6,12 @@ import java.io.*;
  * Team 1 Project
  * Creates a User with username and password.
  *
- * @author Malhar Bhide 
+ * @author Malhar Bhide
+ * @author Himangi Nepal
+ * 
  * @version October 30, 2025
  */
-public class User implements UserInterface {
+public class User implements UserInterface, Serializable {
     private String username;
     private String password;
     private static ArrayList<User> userList = new ArrayList<User>();
@@ -38,39 +40,32 @@ public class User implements UserInterface {
 
     public static void addUser(User user) {
         userList.add(user);
-        File f = new File("userDatabase.txt");
-        try {
-            FileWriter fw = new FileWriter(f, false);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write("List of Users:");
-            bw.newLine();
-            for (int i = 0; i < userList.size(); i++) {
-                bw.write(userList.get(i).getUsername() + "," + userList.get(i).getPassword());
-                bw.newLine();
-            }
-            bw.close();
-        } catch (IOException e) {
-            System.out.println("An error occurred while writing to the user database.");
-            e.printStackTrace();
-        }
+        saveUsersToFile(); 
     }
 
     public static void removeUser(User user) {
-        userList.remove(user);
-        File f = new File("userDatabase.txt");
-        try {
-            FileWriter fw = new FileWriter(f, false);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write("List of Users:");
-            bw.newLine();
-            for (int i = 0; i < userList.size(); i++) {
-                bw.write(userList.get(i).getUsername() + "," + userList.get(i).getPassword());
-                bw.newLine();
-            }
-            bw.close();
+        userList.remove(user); 
+        saveUsersToFile(); 
+    }
+
+    public static void saveUsersToFile() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("users.dat"))){
+            oos.writeObject(userList); 
+            System.out.println("User saved successfully"); 
         } catch (IOException e) {
-            System.out.println("An error occurred while writing to the user database.");
-            e.printStackTrace();
+            System.out.println("Error saving users: " + e.getMessage()); 
+        }
+    }
+
+    public static void loadUsers() {
+        File file = new File("users.dat");
+        if (!file.exists()) return;
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            userList = (ArrayList<User>) ois.readObject();
+            System.out.println("Users loaded successfully.");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error loading users: " + e.getMessage());
         }
     }
 
@@ -87,7 +82,7 @@ public class User implements UserInterface {
         if (!file.exists()) return;
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            reservations = (ArrayList<Reservation>) ois.readObject();
+            reservations = (ArrayList<Reservation>) ois.readObject(); //read obj and cast it to arraylist
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error loading reservations: " + e.getMessage());
         }
@@ -98,6 +93,7 @@ public class User implements UserInterface {
         Seating seating = new Seating(); // shared seating layout to make new reservations
 
         // load saved data before menu starts
+        loadUsers(); 
         loadReservations();
 
         System.out.println("Welcome to the Reservation System!");
