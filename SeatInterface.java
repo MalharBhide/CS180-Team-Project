@@ -1,3 +1,11 @@
+/**
+ * Team 1 Project
+ * Seating Interface that is implemented by Seating class
+ *
+ * @author Laila Lone
+ * 
+ * @version November 10th, 2025
+ */
 public interface SeatInterface {
     int getNumberOfSeats();
     int getRows();

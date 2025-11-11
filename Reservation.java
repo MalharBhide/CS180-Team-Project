@@ -1,20 +1,20 @@
-/*
+import java.io.*;
+
+/**
  * CS 180 Team Project
  *
  * @author Himangi Nepal
- * @version 1.1
+ * @version Nov 10th, 2025
  */
-
-import java.util.Scanner;
-import java.io.*;
-
 public class Reservation implements ReservationInterface, Serializable {
 
-    private String time; // changed int to String to allow am/pm input
+    private String time; 
     private String day;
     private int partySize;
-    private transient Seating seating; //make transient to fix error in saving objects, ignores field when saving because the seating is the same across all objects
+    private transient Seating seating; // transient so it’s not serialized
     private boolean isBooked;
+
+    private String username;
 
     public Reservation(String time, String day, int partySize, Seating seating) {
         this.time = time;
@@ -48,32 +48,39 @@ public class Reservation implements ReservationInterface, Serializable {
         this.partySize = partySize;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public void viewOpenSeats() {
         seating.displaySeats(day, time);
     }
 
-    // modified so that only one seat is reserved per request
+  
     public void bookReservation() {
         if (isBooked) {
             System.out.println("Reservation already booked for " + day + " at " + time + ".");
             return;
         }
 
-        // iterate through 2D array to find ONE available seat
+        // find any open seat for the given day & time
         for (int i = 0; i < seating.getRows(); i++) {
             for (int j = 0; j < seating.getCols(); j++) {
-
                 if (seating.isAvailable(day, time, i, j)) {
                     seating.reserveSeat(day, time, i, j);
                     isBooked = true;
-                    System.out.println("Thank you! Your reservation on "
-                            + day + " at " + time + " is confirmed.");
+                    System.out.println("Thank you! " +
+                            ", your reservation on " + day + " at " + time + " is confirmed!");
                     return;
                 }
             }
         }
 
-        System.out.println("No available seats for the selected time.");
+        System.out.println("No available seats for " + day + " at " + time + ".");
     }
 
     public void cancelReservation() {
@@ -81,7 +88,7 @@ public class Reservation implements ReservationInterface, Serializable {
             System.out.println("There is no reservation to cancel.");
         } else {
             isBooked = false;
-            System.out.println("Your reservation for " + day + " at " + time + " has been canceled.");
+            System.out.println("Your reservation for " + day + " at " + time + " has been canceled, " + ".");
         }
     }
 }

@@ -2,7 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/*
+/**
  * CS 180 Team Project
  * ReservationTest
  *
@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * testing some main stuff like seat reserving, checking availibility, etc
  *
  * @author Jiyara Bhatia
+ * @version Nov 10th, 2025
  */ 
-
 public class SeatingTest {
 
     private Seating seating;

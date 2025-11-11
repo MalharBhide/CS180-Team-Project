@@ -1,22 +1,21 @@
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
-/*
- * CS 180 Team Project
- * UserTest
- *
- *  This test class checks that the User class behaves as expected.
- * It tests things like creating users, changing usernames/passwords,
- * and adding or removing users from the shared user list.
- *
+/**
+ * UserTest class for CS 180 Team Project.
+ * 
+ * Tests the User class for correct behavior including:
+ * - creation of users
+ * - updating usernames and passwords
+ * - adding and removing users from the shared user list
+ * 
+ * 
  * @author Jiyara Bhatia
+ * @version 1.0
  */
-
 class UserTest {
 
     private User user1;
@@ -141,7 +140,7 @@ class UserTest {
      */
 
     @Test
-    void testUserListBetweenTests () throws Exception {
+    void testUserListBetweenTests() throws Exception {
         Field field = User.class.getDeclaredField("userList");
         field.setAccessible(true);
         ArrayList<User> userList = (ArrayList<User>) field.get(null);
@@ -149,4 +148,3 @@ class UserTest {
         assertTrue(userList.isEmpty(), "userList should start empty for each test");
     }
 }
-

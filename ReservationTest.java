@@ -1,22 +1,27 @@
-/*
- * CS 180 Team Project
- * ReservationTest
- *
- * testing the Reservation class functions and making sure everything works how its supposed to
- *
- * @author Jiyara Bhatia
- */
-
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * ReservationTest class for CS 180 Team Project.
+ * 
+ * Tests the Reservation class for correct behavior including:
+ *  -getters and setters
+ *  -booking a reservation
+ *  -canceling a reservation
+ * 
+ * 
+ * @author Jiyara Bhatia
+ * @version 1.0
+ */
 public class ReservationTest {
-
+   
     private Reservation reservation;
-    private MockSeating seating;
-
-    // this is a fake seating class just to test stuff
-    // not the real one, just helps us simulate reserving seats
+    private MockSeating seating; 
+    /** 
+    * Mockseating class is a class that helps test the functions of the reservation class.
+    *
+    * @author Jiyara Bhatia
+    * @version 1.0
+    */
     private static class MockSeating extends Seating {
         private boolean[][] seats;
         private int rows;

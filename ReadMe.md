@@ -3,13 +3,16 @@
 ---
 
 ## Instructions to Compile and Run
-To compile and run the project, open the project folder in IntelliJ or any Java IDE and ensure that all .java files are in the same package or directory. Build the project using the “Build Project” option to compile all classes, then run the Main.java file to start the program. To test the functionality, open the test folder and run all JUnit test classes, such as UserTest, SeatingTest, and ReservationTest, to verify that each part of the program works as expected.
+The User, Reservation, and Seating class can be complied and ran in Vocareum. Please run the testcases in IntelliJ as they do not work in base Vocareum because we are experiencing issues with Junit packages on Vocareum. 
 
 ## Submission Information 
-* Malhar Bhide – Created the GitHub, Played a key role in delegating responsibilities, Debugged and Proofreaded code,vWorked on User functionalities and implementing the “Main Menu”, Completed UserInterface. Submitted on Vocarum
-* Himangi Nepal – Created Reservation class and Reservation interface. Created Cases 4 and 5 which prompt the user to create a reservation and cancel a reservation. Wrote methods using objectOutputStream to write Reservation and User Objects to the file, as well as Load methods which deserialize these objects in order to be loaded in every time the program is called on, therefore ensuring data persistence. 
+* Malhar Bhide – Created the GitHub, Played a key role in delegating responsibilities, Debugged and Proofreaded code, Worked on User functionalities and implementing the “Main Menu”, Completed UserInterface.
+
+* Himangi Nepal – I Created Reservation class and Reservation interface. I also created Cases 4 and 5 which prompt the user to create a reservation and cancel a reservation. I wrote methods using objectOutputStream to write Reservation and User Objects to the file, as well as load methods which deserialize these objects in order to be loaded in every time the program is called on, therefore ensuring data persistence. I also added thread saftey to the user class.
+
 * Laila Lone – designed and implemented seating class and SeatInterface. Worked on 4D array that allows users to make reservations at different days and times. I also implemented my methods with the main program so that the seating chart updates whenever a reservation is created or canceled.
-* Jiyara Bhatia – I wrote all the JUnit test cases for each class to ensure that every part of the program worked correctly and met the project requirements. I also created the outline document in Google Docs to help organize our team’s workflow and structure the project early on. In addition, I was responsible for documenting everything in the README file, clearly explaining each class, its functionality, and how to run and test the program. Submitted on BrightSpace
+
+* Jiyara Bhatia – I wrote all the JUnit test cases as well as test Cases in the main method for each class to ensure that every part of the program worked correctly and met the project requirements. I also created the outline document in Google Docs to help organize our team’s workflow and structure the project early on. In addition, I was responsible for documenting everything in the README file, clearly explaining each class, its functionality, and how to run and test the program.
 
 
 ## Class Desciptions 
@@ -43,6 +46,7 @@ The class lets you check if a seat is open, reserve a seat, and display the seat
 ### Testing:
 This class was tested using **JUnit** and manual checks. Tests made sure that reserving a seat updates correctly, 
 invalid inputs (like wrong rows or times) are handled, and the seating display works as expected.
+Please run the testcases in IntelliJ as they do not work in base vocareum.
 
 ### Relationship to Other Classes:
 `Seating` implements the `SeatInterface` and is used by the `Reservation` class to manage seat bookings. 
