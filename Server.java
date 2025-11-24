@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+
 /**
  * Team 1 Project
  * Server class that handles multiple client connections for user and reservation management.
@@ -7,23 +8,32 @@ import java.net.*;
  * @author Malhar Bhide
  * @version Nov 24th, 2025
  */
-public class Server implements Runnable , ServerInterface {
+public class Server implements Runnable, ServerInterface {
+    private Database db = new Database(); // instance of Database
     private static final Seating seating = new Seating();
+    public static void main(String[] args) {
+        new Thread(new Server()).start();
+    }
     public void run() { // server runs on its own thread
+        // Load data at server startup
+        db.loadUsers();
+        db.loadReservations();
+
         try (ServerSocket serverSocket = new ServerSocket(12345)) {
             System.out.println("Server started on port 12345");
-            User.loadUsers();
-            User.loadReservations();
+
             while (true) {
                 Socket socket = serverSocket.accept();
                 System.out.println("Client connected: " + socket.getInetAddress());
+
+                // Handle each client in its own thread
                 new Thread(() -> handleClient(socket)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void handleClient(Socket socket) { // each client handled in its own thread
+    public void handleClient(Socket socket) { 
         boolean loginSuccess = false;
         String loggedInUser = null;
 
@@ -31,15 +41,17 @@ public class Server implements Runnable , ServerInterface {
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
             String option;
-            while ((option = in.readLine()) != null) { //Uses Options 1-6 to perform actions
+            while ((option = in.readLine()) != null) {
                 switch (option) {
+
                     case "1": // Create User
                         out.println("Enter a Username:");
                         String username = in.readLine();
+
                         while (true) {
                             boolean duplicate = false;
-                            synchronized (User.getUserList()) {
-                                for (User u : User.getUserList()) {
+                            synchronized (db.getUserList()) {
+                                for (User u : db.getUserList()) {
                                     if (u.getUsername().equals(username)) {
                                         duplicate = true;
                                         break;
@@ -47,12 +59,14 @@ public class Server implements Runnable , ServerInterface {
                                 }
                             }
                             if (!duplicate) break;
+
                             out.println("Username already exists. Enter again:");
                             username = in.readLine();
                         }
+
                         out.println("Enter a Password:");
                         String password = in.readLine();
-                        User.addUser(new User(username, password));
+                        db.addUser(new User(username, password));
                         out.println("User created successfully!");
                         break;
 
@@ -61,13 +75,14 @@ public class Server implements Runnable , ServerInterface {
                         String userToRemove = in.readLine();
                         out.println("Enter Password:");
                         String passToRemove = in.readLine();
+
                         boolean removed = false;
-                        synchronized (User.getUserList()) {
-                            for (int i = 0; i < User.getUserList().size(); i++) {
-                                User u = User.getUserList().get(i);
+                        synchronized (db.getUserList()) {
+                            for (int i = 0; i < db.getUserList().size(); i++) {
+                                User u = db.getUserList().get(i);
                                 if (u.getUsername().equals(userToRemove) &&
                                     u.getPassword().equals(passToRemove)) {
-                                    User.removeUser(u);
+                                    db.removeUser(u);
                                     removed = true;
                                     break;
                                 }
@@ -84,8 +99,8 @@ public class Server implements Runnable , ServerInterface {
                         String loginPassword = in.readLine();
 
                         loginSuccess = false;
-                        synchronized (User.getUserList()) {
-                            for (User u : User.getUserList()) {
+                        synchronized (db.getUserList()) {
+                            for (User u : db.getUserList()) {
                                 if (u.getUsername().equals(loginUsername) &&
                                     u.getPassword().equals(loginPassword)) {
                                     loginSuccess = true;
@@ -103,10 +118,12 @@ public class Server implements Runnable , ServerInterface {
                             out.println("User is not logged in. Please log in first.");
                             break;
                         }
+
                         out.println("Enter reservation time (e.g., 6:00PM):");
                         String time = in.readLine();
                         out.println("Enter day:");
                         String day = in.readLine();
+
                         int partySize = 0;
                         while (true) {
                             out.println("Enter party size:");
@@ -119,7 +136,7 @@ public class Server implements Runnable , ServerInterface {
                         Reservation newReservation = new Reservation(time, day, partySize, seating);
                         newReservation.setUsername(loggedInUser);
                         newReservation.bookReservation();
-                        User.addReservation(newReservation);
+                        db.addReservation(newReservation);
                         out.println("Reservation created successfully!");
                         seating.displaySeats(day, time);
                         break;
@@ -129,24 +146,27 @@ public class Server implements Runnable , ServerInterface {
                             out.println("User is not logged in. Please log in first.");
                             break;
                         }
+
                         out.println("Enter reservation day:");
                         String cancelDay = in.readLine();
                         out.println("Enter reservation time:");
                         String cancelTime = in.readLine();
+
                         boolean found = false;
-                        synchronized (User.getReservations()) {
-                            for (int i = 0; i < User.getReservations().size(); i++) {
-                                Reservation r = User.getReservations().get(i);
+                        synchronized (db.getReservations()) {
+                            for (int i = 0; i < db.getReservations().size(); i++) {
+                                Reservation r = db.getReservations().get(i);
                                 if (r.getDay().equalsIgnoreCase(cancelDay) &&
                                     r.getTime().equalsIgnoreCase(cancelTime) &&
                                     loggedInUser.equals(r.getUsername())) {
                                     r.cancelReservation();
-                                    User.removeReservation(r);
+                                    db.removeReservation(r);
                                     found = true;
                                     break;
                                 }
                             }
                         }
+
                         out.println(found ? "Reservation canceled successfully!"
                                           : "No reservation found for that time/day.");
                         break;
@@ -160,13 +180,8 @@ public class Server implements Runnable , ServerInterface {
                         out.println("Invalid option. Try again.");
                 }
             }
-
         } catch (IOException e) {
             System.out.println("Client disconnected.");
         }
-    }
-
-    public static void main(String[] args) { // start server thread
-        new Thread(new Server()).start();
     }
 }
