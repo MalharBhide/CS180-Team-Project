@@ -24,7 +24,7 @@ public class Client {
     public void start() {
         scanner = new Scanner(System.in);
         
-        System.out.println("=== Restaurant Reservation System ===");
+        System.out.println("Restaurant Reservation System");
         
         
         if (!connectToServer()) {
