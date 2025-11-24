@@ -16,4 +16,6 @@ public interface DatabaseInterface {
     void removeReservation(Reservation reservation);
     void saveUsersToFile();
     void loadUsers();
+    void saveReservationsToFile();
+    void loadReservations();
 }

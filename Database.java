@@ -8,36 +8,36 @@ import java.io.*;
  * @version Nov 24th, 2025
  */
 public class Database implements DatabaseInterface {
-    private static ArrayList<User> userList = new ArrayList<User>();
-    private static ArrayList<Reservation> reservations = new ArrayList<Reservation>();
-    public static void addUser(User user) {
+    private ArrayList<User> userList = new ArrayList<User>();
+    private ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+    public void addUser(User user) {
         synchronized (userList) {
             userList.add(user);
             saveUsersToFile();
         }
     }
 
-    public static void removeUser(User user) {
+    public void removeUser(User user) {
         synchronized (userList) {
             userList.remove(user);
             saveUsersToFile();
         }
     }
-    public static ArrayList<User> getUserList() {
+    public ArrayList<User> getUserList() {
         return userList;
     }
-    public static ArrayList<Reservation> getReservations() {
+    public ArrayList<Reservation> getReservations() {
         return reservations;
     }
     // thread-safe reservation methods
-    public static void addReservation(Reservation reservation) {
+    public void addReservation(Reservation reservation) {
         synchronized (reservations) {
             reservations.add(reservation);
             saveReservationsToFile();
         }
     }
 
-    public static void removeReservation(Reservation reservation) {
+    public void removeReservation(Reservation reservation) {
         synchronized (reservations) {
             reservations.remove(reservation);
             saveReservationsToFile();
@@ -45,7 +45,7 @@ public class Database implements DatabaseInterface {
     }
 
 
-    public static void saveUsersToFile() {
+    public void saveUsersToFile() {
         synchronized (userList) {
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("users.dat"))) {
                 oos.writeObject(userList);
@@ -56,7 +56,7 @@ public class Database implements DatabaseInterface {
         }
     }
 
-    public static synchronized void loadUsers() {
+    public synchronized void loadUsers() {
         File file = new File("users.dat");
         if (!file.exists()) return;
 
@@ -68,7 +68,7 @@ public class Database implements DatabaseInterface {
         }
     }
 
-    public static void saveReservationsToFile() {
+    public void saveReservationsToFile() {
         synchronized (reservations) {
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("reservations.dat"))) {
                 oos.writeObject(reservations);
@@ -78,7 +78,7 @@ public class Database implements DatabaseInterface {
         }
     }
 
-    public static synchronized void loadReservations() {
+    public synchronized void loadReservations() {
         File file = new File("reservations.dat");
         if (!file.exists()) return;
 
