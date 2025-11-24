@@ -1,176 +1,140 @@
-import java.io.*;
-import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
-/**
- * 
- * @author Himangi Nepal
- * @version 11/24/2025
- * Handles a single connected client.
- * Reads requests like: COMMAND|k=v|k=v
- * Sends back responses like: LOGIN_SUCCESS
- */
-public class ClientHandler implements Runnable {
+# Project README
 
-    private final Socket socket;
-    private final Database db;     // server will pass in its shared database
-    private BufferedReader in;
-    private PrintWriter out;
+---
 
-    private boolean loggedIn = false;
-    private String currentUser = null;
+## Instructions to Compile and Run
 
-    public ClientHandler(Socket socket, Database db) {
-        this.socket = socket;
-        this.db = db;
-    }
+The User, Reservation, Seating, Database, Server, and Client classes can be compiled and run in **Vocareum**.  
+**Note:** Test cases should be run in IntelliJ because there are issues with JUnit packages on Vocareum.
 
-    @Override
-    public void run() {
-        try {
-            in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream(), true);
+**Steps:**
 
-            String line;
-            while ((line = in.readLine()) != null) {
-                System.out.println("CLIENT SENT: " + line);
-                process(line);
-            }
+1. Compile all Java classes.
+2. Run `Server.java` to start the server.
+3. Run `Client.java` to connect to the server.
+4. Interact with the menu in the client console to manage users and reservations.
 
-        } catch (IOException e) {
-            System.out.println("Client disconnected.");
-        } finally {
-            cleanup();
-        }
-    }
+---
 
-    private void cleanup() {
-        try {
-            if (in != null) in.close();
-            if (out != null) out.close();
-            socket.close();
-        } catch (IOException ignored) {}
-    }
+## Submission Information
 
-    /**
-     * Parses full command: COMMAND|k=v|k=v...
-     */
-    private void process(String request) {
-        if (!request.contains("|")) {
-            out.println("BAD_REQUEST");
-            return;
-        }
+- **Malhar Bhide** – Created the GitHub repo, delegated responsibilities, debugged and proofread code, implemented User functionalities and the Main Menu, completed `UserInterface`. Created Server.java and Database.java.
+- **Himangi Nepal** – Created `Reservation` class and interface, implemented cases 4 and 5 (create/cancel reservations), implemented persistence via `ObjectOutputStream` and `ObjectInputStream`, added thread-safety in `User` class. Assisted in creating and debgugging Client.java class and created README file. 
+- **Laila Lone** – Designed and implemented `Seating` class and `SeatInterface`, created 4D array for managing seat reservations, integrated seating updates with the main program. Created Client.java class and ClientInterface.java.
+- **Jiyara Bhatia** – Wrote JUnit test cases and main method tests for each class, documented all classes and functionality, drafted the README file.
 
-        String[] parts = request.split("\\|");
-        String command = parts[0].trim().toUpperCase();
+---
 
-        Map<String, String> data = new HashMap<>();
-        for (int i = 1; i < parts.length; i++) {
-            if (parts[i].contains("=")) {
-                String[] kv = parts[i].split("=", 2);
-                data.put(kv[0].trim(), kv[1].trim());
-            }
-        }
+## Class Descriptions
 
-        switch (command) {
+### User.java
 
-            case "CREATE_USER":
-                handleSignup(data);
-                break;
+### Functionality:
+The `User` class is responsible for creating and managing individual user accounts. Each `User` object stores a username and password.
+Additionally, the class maintains a static `ArrayList<User>` called `userList`, which keeps track of all created users in the system.
+The class implements the `UserInterface` to ensure consistent behavior across all of the later developed user related classes.
+Core features include user creation, data storage, and providing access to user credentials through getter methods.
 
-            case "LOGIN":
-                handleLogin(data);
-                break;
+### Testing:
+The `User` class was tested using **JUnit** to verify that users are correctly created, added to the user list, and that getter 
+methods return the expected values. Unit tests also ensured that duplicate users are not unintentionally added to the shared list. 
+Manual console tests were performed to confirm the creation of users and correct display of stored data.
 
-            case "LIST_SEATS":
-                handleListSeats(data);
-                break;
+### Relationship to Other Classes:
+The `User` class implements the `UserInterface`, providing a standard structure for user operations. 
+The `Main` class may also create and manipulate `User` objects based on user input.
 
-            case "BOOK":
-                handleBooking(data);
-                break;
+---
 
-            case "CANCEL":
-                handleCancel(data);
-                break;
+## Seating.java
 
-            case "LOGOUT":
-                handleLogout();
-                break;
+### Functionality:
+The `Seating` class keeps track of all seat availability across different days and time slots. 
+It uses a 4D boolean array to represent seats for 7 days and 13 time slots, each with a 10x10 grid. 
+The class lets you check if a seat is open, reserve a seat, and display the seating chart for a given day and time.
 
-            default:
-                out.println("UNKNOWN_COMMAND");
-        }
-    }
+### Testing:
+This class was tested using **JUnit** and manual checks. Tests made sure that reserving a seat updates correctly, 
+invalid inputs (like wrong rows or times) are handled, and the seating display works as expected.
+Please run the testcases in IntelliJ as they do not work in base vocareum.
 
-    private void handleSignup(Map<String, String> data) {
-        String user = data.get("username");
-        String pass = data.get("password");
+### Relationship to Other Classes:
+`Seating` implements the `SeatInterface` and is used by the `Reservation` class to manage seat bookings. 
+Other classes may access it to view or modify seat availability.
+---
 
-        if (db.userExists(user)) {
-            out.println("USER_EXISTS");
-            return;
-        }
+## Reservation.java
 
-        db.createUser(user, pass);
-        out.println("USER_CREATED");
-    }
+### Functionality:
+The `Reservation` class handles booking and canceling seat reservations for specific days and times. 
+It stores details like the day, time, and party size, and connects with the `Seating` class to check and update seat availability. 
+It ensures that users can only reserve open seats and prevents double bookings.
 
-    private void handleLogin(Map<String, String> data) {
-        String user = data.get("username");
-        String pass = data.get("password");
+### Testing:
+The class was tested using **JUnit** to confirm that reservations can be created, updated, and canceled correctly. 
+Tests also verified that seat availability updates properly in coordination with the `Seating` class.
 
-        if (db.validateUser(user, pass)) {
-            loggedIn = true;
-            currentUser = user;
-            out.println("LOGIN_SUCCESS");
-        } else {
-            out.println("LOGIN_FAILED");
-        }
-    }
+### Relationship to Other Classes:
+`Reservation` works closely with `Seating` to manage seat status and may interact with the User class to link 
+bookings to specific users. It relies on Seating for validation and seat control logic.
 
-    private void handleListSeats(Map<String, String> data) {
-        String day = data.get("day");
-        String time = data.get("time");
+---
 
-        String response = db.listSeats(day, time);
-        out.println("SEATS|" + response);
-    }
+### Database.java
 
-    private void handleBooking(Map<String, String> data) {
-        if (!loggedIn) {
-            out.println("BOOKING_FAILED");
-            return;
-        }
+### Functionality:
+Centralized storage for all `User` and `Reservation` objects. Implements `DatabaseInterface`.  
+Provides thread-safe methods to add/remove users and reservations, save/load data from files, and retrieve reservations for a specific user.
 
-        String day = data.get("day");
-        String time = data.get("time");
-        int size = Integer.parseInt(data.get("partySize"));
+### Testing:
+Tested manually to ensure correct persistence and retrieval of user and reservation data. Synchronized methods ensure thread-safety in multi-client scenarios.
 
-        boolean ok = db.book(currentUser, day, time, size);
+### Relationship to Other Classes:
+`Server` uses `Database` to handle all user and reservation operations instead of accessing `User` static lists directly.
 
-        if (ok) out.println("BOOKING_SUCCESS");
-        else    out.println("BOOKING_FAILED");
-    }
+---
 
-    private void handleCancel(Map<String, String> data) {
-        if (!loggedIn) {
-            out.println("CANCELLATION_FAILED");
-            return;
-        }
+### Server.java
 
-        String day = data.get("day");
-        String time = data.get("time");
+### Functionality:
+Runs a multi-threaded server to handle multiple clients simultaneously. Receives client requests for:  
 
-        boolean ok = db.cancel(currentUser, day, time);
+1. Create User  
+2. Remove User  
+3. Login  
+4. Create Reservation  
+5. Cancel Reservation  
+6. Exit  
+7. View Reservations 
 
-        if (ok) out.println("CANCELLATION_SUCCESS");
-        else    out.println("CANCELLATION_FAILED");
-    }
+Option 7 allows users to view all their current reservations.
 
-    private void handleLogout() {
-        loggedIn = false;
-        currentUser = null;
-        out.println("LOGOUT_OK");
-    }
-}
+### Testing:
+Manual testing with multiple clients ensured proper synchronization and correct handling of concurrent requests.
+
+### Relationship:
+Communicates with `Client` over sockets and interacts with `Database`, `U
+
+---
+
+### Client.java
+
+### Functionality:
+Command-line client interface to connect to the server. Provides a menu for users to perform actions remotely:
+
+1. Create User Account  
+2. Remove User Account  
+3. Login  
+4. Create Reservation  
+5. Cancel Reservation  
+6. Exit  
+7. View My Reservations
+
+### New Feature:
+Allows logged-in users to retrieve a list of their reservations from the server and display them in the console.
+
+### Testing:
+Tested manually to confirm proper communication with the server, correct menu navigation, validation of user input, and receipt of accurate reservation data.
+
+### Relationship to Other Classes:
+Uses network I/O to communicate with `Server`. Sends commands and receives responses related to user and reservation management. Interacts with `Database` indirectly via `Server` to fetch reservations.
