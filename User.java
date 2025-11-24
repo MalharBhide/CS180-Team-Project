@@ -51,7 +51,12 @@ public class User implements UserInterface, Serializable {
             saveUsersToFile();
         }
     }
-
+    public static ArrayList<User> getUserList() {
+        return userList;
+    }
+    public static ArrayList<Reservation> getReservations() {
+        return reservations;
+    }
     // thread-safe reservation methods
     public static void addReservation(Reservation reservation) {
         synchronized (reservations) {
