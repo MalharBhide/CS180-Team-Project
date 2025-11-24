@@ -1,3 +1,10 @@
+/** 
+*
+* Interface for the client class
+*@author Laila 
+*@version 
+*
+*/
 public interface ClientInterface {
     void start();
     boolean connectToServer();
