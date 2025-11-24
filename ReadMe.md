@@ -3,21 +3,30 @@
 ---
 
 ## Instructions to Compile and Run
-The User, Reservation, and Seating class can be complied and ran in Vocareum. Please run the testcases in IntelliJ as they do not work in base Vocareum because we are experiencing issues with Junit packages on Vocareum. 
 
-## Submission Information 
-* Malhar Bhide – Created the GitHub, Played a key role in delegating responsibilities, Debugged and Proofreaded code, Worked on User functionalities and implementing the “Main Menu”, Completed UserInterface.
+The User, Reservation, Seating, Database, Server, and Client classes can be compiled and run in Intellij.  
 
-* Himangi Nepal – I Created Reservation class and Reservation interface. I also created Cases 4 and 5 which prompt the user to create a reservation and cancel a reservation. I wrote methods using objectOutputStream to write Reservation and User Objects to the file, as well as load methods which deserialize these objects in order to be loaded in every time the program is called on, therefore ensuring data persistence. I also added thread saftey to the user class.
+**Steps:**
 
-* Laila Lone – designed and implemented seating class and SeatInterface. Worked on 4D array that allows users to make reservations at different days and times. I also implemented my methods with the main program so that the seating chart updates whenever a reservation is created or canceled.
+1. Compile all Java classes.
+2. Run `Server.java` to start the server.
+3. Run `Client.java` to connect to the server.
+4. Interact with the menu in the client console to manage users and reservations.
 
-* Jiyara Bhatia – I wrote all the JUnit test cases as well as test Cases in the main method for each class to ensure that every part of the program worked correctly and met the project requirements. I also created the outline document in Google Docs to help organize our team’s workflow and structure the project early on. In addition, I was responsible for documenting everything in the README file, clearly explaining each class, its functionality, and how to run and test the program.
+---
 
+## Submission Information
 
-## Class Desciptions 
+- **Malhar Bhide** – Created the GitHub repo, delegated responsibilities, debugged and proofread code, implemented User functionalities and the Main Menu, completed `UserInterface`. Created Server.java and Database.java.
+- **Himangi Nepal** – Created `Reservation` class and interface, implemented cases 4 and 5 (create/cancel reservations), implemented persistence via `ObjectOutputStream` and `ObjectInputStream`, added thread-safety in `User` class. Assisted in creating and debgugging Client.java class and created README file. 
+- **Laila Lone** – Designed and implemented `Seating` class and `SeatInterface`, created 4D array for managing seat reservations, integrated seating updates with the main program. Created Client.java class and ClientInterface.java.
+- **Jiyara Bhatia** – Wrote JUnit test cases and main method tests for each class, documented all classes and functionality, drafted the README file.
 
-## User.java
+---
+
+## Class Descriptions
+
+### User.java
 
 ### Functionality:
 The `User` class is responsible for creating and managing individual user accounts. Each `User` object stores a username and password.
@@ -34,7 +43,7 @@ Manual console tests were performed to confirm the creation of users and correct
 The `User` class implements the `UserInterface`, providing a standard structure for user operations. 
 The `Main` class may also create and manipulate `User` objects based on user input.
 
-
+---
 
 ## Seating.java
 
@@ -51,7 +60,7 @@ Please run the testcases in IntelliJ as they do not work in base vocareum.
 ### Relationship to Other Classes:
 `Seating` implements the `SeatInterface` and is used by the `Reservation` class to manage seat bookings. 
 Other classes may access it to view or modify seat availability.
-
+---
 
 ## Reservation.java
 
@@ -68,4 +77,63 @@ Tests also verified that seat availability updates properly in coordination with
 `Reservation` works closely with `Seating` to manage seat status and may interact with the User class to link 
 bookings to specific users. It relies on Seating for validation and seat control logic.
 
+---
 
+### Database.java
+
+### Functionality:
+Centralized storage for all `User` and `Reservation` objects. Implements `DatabaseInterface`.  
+Provides thread-safe methods to add/remove users and reservations, save/load data from files, and retrieve reservations for a specific user.
+
+### Testing:
+Tested manually to ensure correct persistence and retrieval of user and reservation data. Synchronized methods ensure thread-safety in multi-client scenarios.
+
+### Relationship to Other Classes:
+`Server` uses `Database` to handle all user and reservation operations instead of accessing `User` static lists directly.
+
+---
+
+### Server.java
+
+### Functionality:
+Runs a multi-threaded server to handle multiple clients simultaneously. Receives client requests for:  
+
+1. Create User  
+2. Remove User  
+3. Login  
+4. Create Reservation  
+5. Cancel Reservation  
+6. Exit  
+7. View Reservations 
+
+Option 7 allows users to view all their current reservations.
+
+### Testing:
+Manual testing with multiple clients ensured proper synchronization and correct handling of concurrent requests.
+
+### Relationship:
+Communicates with `Client` over sockets and interacts with `Database`, `U
+
+---
+
+### Client.java
+
+### Functionality:
+Command-line client interface to connect to the server. Provides a menu for users to perform actions remotely:
+
+1. Create User Account  
+2. Remove User Account  
+3. Login  
+4. Create Reservation  
+5. Cancel Reservation  
+6. Exit  
+7. View My Reservations
+
+### New Feature:
+Allows logged-in users to retrieve a list of their reservations from the server and display them in the console.
+
+### Testing:
+Tested manually to confirm proper communication with the server, correct menu navigation, validation of user input, and receipt of accurate reservation data.
+
+### Relationship to Other Classes:
+Uses network I/O to communicate with `Server`. Sends commands and receives responses related to user and reservation management. Interacts with `Database` indirectly via `Server` to fetch reservations.
