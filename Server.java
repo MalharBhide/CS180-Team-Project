@@ -7,7 +7,7 @@ import java.net.*;
  * @author Malhar Bhide
  * @version Nov 24th, 2025
  */
-public class Server implements Runnable {
+public class Server implements Runnable , ServerInterface {
     private static final Seating seating = new Seating();
     public void run() { // server runs on its own thread
         try (ServerSocket serverSocket = new ServerSocket(12345)) {
