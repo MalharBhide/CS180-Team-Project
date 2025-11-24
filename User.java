@@ -116,7 +116,7 @@ public class User implements UserInterface, Serializable {
             System.out.println("Error loading reservations: " + e.getMessage());
         }
     }
-
+    /* Main method for testing purposes 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Seating seating = new Seating();
@@ -277,4 +277,5 @@ public class User implements UserInterface, Serializable {
 
         sc.close();
     }
+    */
 }
