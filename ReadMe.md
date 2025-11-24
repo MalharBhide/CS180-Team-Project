@@ -4,8 +4,7 @@
 
 ## Instructions to Compile and Run
 
-The User, Reservation, Seating, Database, Server, and Client classes can be compiled and run in **Vocareum**.  
-**Note:** Test cases should be run in IntelliJ because there are issues with JUnit packages on Vocareum.
+The User, Reservation, Seating, Database, Server, and Client classes can be compiled and run in Intellij.  
 
 **Steps:**
 
