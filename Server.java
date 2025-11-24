@@ -1,9 +1,15 @@
 import java.io.*;
 import java.net.*;
-
+/**
+ * Team 1 Project
+ * Server class that handles multiple client connections for user and reservation management.
+ *
+ * @author Malhar Bhide
+ * @version Nov 24th, 2025
+ */
 public class Server implements Runnable {
     private static final Seating seating = new Seating();
-    public void run() {
+    public void run() { // server runs on its own thread
         try (ServerSocket serverSocket = new ServerSocket(12345)) {
             System.out.println("Server started on port 12345");
             User.loadUsers();
@@ -17,7 +23,7 @@ public class Server implements Runnable {
             e.printStackTrace();
         }
     }
-    private void handleClient(Socket socket) {
+    private void handleClient(Socket socket) { // each client handled in its own thread
         boolean loginSuccess = false;
         String loggedInUser = null;
 
@@ -25,7 +31,7 @@ public class Server implements Runnable {
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
             String option;
-            while ((option = in.readLine()) != null) {
+            while ((option = in.readLine()) != null) { //Uses Options 1-6 to perform actions
                 switch (option) {
                     case "1": // Create User
                         out.println("Enter a Username:");
@@ -160,7 +166,7 @@ public class Server implements Runnable {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { // start server thread
         new Thread(new Server()).start();
     }
 }
