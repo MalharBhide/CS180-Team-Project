@@ -1,3 +1,12 @@
+import java.util.ArrayList;
+import java.io.*;
+/**
+ * Team 1 Project
+ * Database class that implements DatabaseInterface to manage users and reservations.
+ *
+ * @author Malhar Bhide
+ * @version Nov 24th, 2025
+ */
 public class Database implements DatabaseInterface {
     private static ArrayList<User> userList = new ArrayList<User>();
     private static ArrayList<Reservation> reservations = new ArrayList<Reservation>();
