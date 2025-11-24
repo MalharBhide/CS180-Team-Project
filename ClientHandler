@@ -1,0 +1,176 @@
+import java.io.*;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+/**
+ * 
+ * @author Himangi Nepal
+ * @version 11/24/2025
+ * Handles a single connected client.
+ * Reads requests like: COMMAND|k=v|k=v
+ * Sends back responses like: LOGIN_SUCCESS
+ */
+public class ClientHandler implements Runnable {
+
+    private final Socket socket;
+    private final Database db;     // server will pass in its shared database
+    private BufferedReader in;
+    private PrintWriter out;
+
+    private boolean loggedIn = false;
+    private String currentUser = null;
+
+    public ClientHandler(Socket socket, Database db) {
+        this.socket = socket;
+        this.db = db;
+    }
+
+    @Override
+    public void run() {
+        try {
+            in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
+
+            String line;
+            while ((line = in.readLine()) != null) {
+                System.out.println("CLIENT SENT: " + line);
+                process(line);
+            }
+
+        } catch (IOException e) {
+            System.out.println("Client disconnected.");
+        } finally {
+            cleanup();
+        }
+    }
+
+    private void cleanup() {
+        try {
+            if (in != null) in.close();
+            if (out != null) out.close();
+            socket.close();
+        } catch (IOException ignored) {}
+    }
+
+    /**
+     * Parses full command: COMMAND|k=v|k=v...
+     */
+    private void process(String request) {
+        if (!request.contains("|")) {
+            out.println("BAD_REQUEST");
+            return;
+        }
+
+        String[] parts = request.split("\\|");
+        String command = parts[0].trim().toUpperCase();
+
+        Map<String, String> data = new HashMap<>();
+        for (int i = 1; i < parts.length; i++) {
+            if (parts[i].contains("=")) {
+                String[] kv = parts[i].split("=", 2);
+                data.put(kv[0].trim(), kv[1].trim());
+            }
+        }
+
+        switch (command) {
+
+            case "CREATE_USER":
+                handleSignup(data);
+                break;
+
+            case "LOGIN":
+                handleLogin(data);
+                break;
+
+            case "LIST_SEATS":
+                handleListSeats(data);
+                break;
+
+            case "BOOK":
+                handleBooking(data);
+                break;
+
+            case "CANCEL":
+                handleCancel(data);
+                break;
+
+            case "LOGOUT":
+                handleLogout();
+                break;
+
+            default:
+                out.println("UNKNOWN_COMMAND");
+        }
+    }
+
+    private void handleSignup(Map<String, String> data) {
+        String user = data.get("username");
+        String pass = data.get("password");
+
+        if (db.userExists(user)) {
+            out.println("USER_EXISTS");
+            return;
+        }
+
+        db.createUser(user, pass);
+        out.println("USER_CREATED");
+    }
+
+    private void handleLogin(Map<String, String> data) {
+        String user = data.get("username");
+        String pass = data.get("password");
+
+        if (db.validateUser(user, pass)) {
+            loggedIn = true;
+            currentUser = user;
+            out.println("LOGIN_SUCCESS");
+        } else {
+            out.println("LOGIN_FAILED");
+        }
+    }
+
+    private void handleListSeats(Map<String, String> data) {
+        String day = data.get("day");
+        String time = data.get("time");
+
+        String response = db.listSeats(day, time);
+        out.println("SEATS|" + response);
+    }
+
+    private void handleBooking(Map<String, String> data) {
+        if (!loggedIn) {
+            out.println("BOOKING_FAILED");
+            return;
+        }
+
+        String day = data.get("day");
+        String time = data.get("time");
+        int size = Integer.parseInt(data.get("partySize"));
+
+        boolean ok = db.book(currentUser, day, time, size);
+
+        if (ok) out.println("BOOKING_SUCCESS");
+        else    out.println("BOOKING_FAILED");
+    }
+
+    private void handleCancel(Map<String, String> data) {
+        if (!loggedIn) {
+            out.println("CANCELLATION_FAILED");
+            return;
+        }
+
+        String day = data.get("day");
+        String time = data.get("time");
+
+        boolean ok = db.cancel(currentUser, day, time);
+
+        if (ok) out.println("CANCELLATION_SUCCESS");
+        else    out.println("CANCELLATION_FAILED");
+    }
+
+    private void handleLogout() {
+        loggedIn = false;
+        currentUser = null;
+        out.println("LOGOUT_OK");
+    }
+}
