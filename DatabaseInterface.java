@@ -8,14 +8,12 @@ import java.io.*;
  * @version Nov 24th, 2025
  */
 public interface DatabaseInterface {
-    public static void addUser(User user);
-    public static void removeUser(User user);
-    public static ArrayList<User> getUserList();
-    public static ArrayList<Reservation> getReservations();
-    public static void addReservation(Reservation reservation);
-    public static void removeReservation(Reservation reservation);
-    public static void saveUsersToFile();
-    public static void loadUsers();
-    public static void saveReservationsToFile();
-    public static void loadReservations();
+    void addUser(User user);
+    void removeUser(User user);
+    ArrayList<User> getUserList();
+    ArrayList<Reservation> getReservations();
+    void addReservation(Reservation reservation);
+    void removeReservation(Reservation reservation);
+    void saveUsersToFile();
+    void loadUsers();
 }
