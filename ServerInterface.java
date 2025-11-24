@@ -4,7 +4,7 @@ import java.net.Socket;
  * @author Malhar Bhide
  * @version November 24th, 2025
  */
-public class ServerInterface {
-    public void run() {};
-    public void handleClient(Socket socket) {};
+public interface ServerInterface {
+    void run();
+    void handleClient(Socket socket);
 }

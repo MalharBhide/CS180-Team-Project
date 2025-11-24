@@ -23,7 +23,7 @@ public class Server implements Runnable , ServerInterface {
             e.printStackTrace();
         }
     }
-    private void handleClient(Socket socket) { // each client handled in its own thread
+    public void handleClient(Socket socket) { // each client handled in its own thread
         boolean loginSuccess = false;
         String loggedInUser = null;
 
