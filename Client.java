@@ -9,7 +9,7 @@ import java.util.Scanner;
  * @author Laila
  * @version November 2024
  */
-public class Client {
+public class Client implements ClientInterface {
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
