@@ -62,7 +62,7 @@ public class Client implements ClientInterface {
         }
     }
 
-    private boolean connectToServer() {
+    public boolean connectToServer() {
         try {
             System.out.print("Enter server host (localhost): ");
             String host = scanner.nextLine().trim();
@@ -96,7 +96,7 @@ public class Client implements ClientInterface {
         System.out.print("Choose an option: ");
     }
 
-    private void createUser() {
+    public void createUser() {
         try {
             out.println("1"); 
             
@@ -142,7 +142,7 @@ public class Client implements ClientInterface {
         }
     }
 
-    private void login() {
+    public void login() {
         try {
             out.println("3"); // logging in
             
@@ -169,7 +169,7 @@ public class Client implements ClientInterface {
         }
     }
 
-    private void createReservation() {
+    public void createReservation() {
         if (!loggedIn) {
             System.out.println("Please login first!");
             return;
@@ -201,7 +201,7 @@ public class Client implements ClientInterface {
         }
     }
 
-    private void cancelReservation() {
+    public void cancelReservation() {
         if (!loggedIn) {
             System.out.println("Please login first!");
             return;
@@ -228,7 +228,7 @@ public class Client implements ClientInterface {
         }
     }
 
-    private void closeConnection() {
+    public void closeConnection() {
         try {
             if (out != null) out.close();
             if (in != null) in.close();
