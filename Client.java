@@ -14,7 +14,6 @@ public class Client implements ClientInterface {
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
-    private Scanner scanner;
     private boolean loggedIn = false;
     private String currentUser = null;
 
@@ -340,7 +339,6 @@ public void closeConnection() {
         if (out != null) out.close();
         if (in != null) in.close();
         if (socket != null) socket.close();
-        if (scanner != null) scanner.close(); 
     } catch (IOException e) {
         // Ignore
     }
