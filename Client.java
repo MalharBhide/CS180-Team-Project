@@ -35,7 +35,7 @@ public class Client implements ClientInterface {
 
        if (!connectToServer()) {
 	    JOptionPane.showMessageDialog(
-	    	 Null,
+	    	 null,
 	    	 "Failed to connect to server.",
 	   	 "Connection Error",
 	   	 JOptionPane.ERROR_MESSAGE
@@ -85,7 +85,7 @@ public class Client implements ClientInterface {
                    JOptionPane.showMessageDialog(null, "Goodbye!");
 		      closeConnection();
 		      return;
-               Default:
+               default:
                   JOptionPane.showMessageDialog(null,"Invalid option. Please try again.");
            }
        }
