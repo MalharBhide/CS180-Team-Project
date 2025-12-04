@@ -176,54 +176,6 @@ options[0]
    }
 
 
-   public void createUser() {
-       try {
-           out.println("1");
-          
-           // Read and respond
-           String prompt = in.readLine();
-           System.out.println(prompt);
-           String username = scanner.nextLine();
-           out.println(username);
-          
-           prompt = in.readLine();
-           System.out.println(prompt);
-           String password = scanner.nextLine();
-           out.println(password);
-          
-           // Read result
-           String result = in.readLine();
-           System.out.println(result);
-          
-       } catch (IOException e) {
-           System.out.println("Error creating user: " + e.getMessage());
-       }
-   }
-
-
-   private void removeUser() {
-       try {
-           out.println("2"); // removing user
-          
-           String prompt = in.readLine();
-           System.out.println(prompt);
-           String username = scanner.nextLine();
-           out.println(username);
-          
-           prompt = in.readLine();
-           System.out.println(prompt);
-           String password = scanner.nextLine();
-           out.println(password);
-          
-           String result = in.readLine();
-           System.out.println(result);
-          
-       } catch (IOException e) {
-           System.out.println("Error removing user: " + e.getMessage());
-       }
-   }
-
-
    public void login() {
        try {
            out.println("3"); // logging in
