@@ -270,7 +270,7 @@ options[0]
            // Ignore
        }
    }
-}
+
 
 
 public void createUser() {
@@ -347,4 +347,5 @@ private void removeUser() {
            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
        }
    }
+ }
 }
