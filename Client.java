@@ -242,7 +242,6 @@ private void removeUser() {
            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
        }
    }
-<<<<<<< HEAD
 }
     public void login() {
     // Assuming 'loggedIn', 'currentUser', 'in', 'out' are class members
@@ -352,8 +351,5 @@ public void closeConnection() {
     } catch (IOException e) {
         // Ignore
     }
-=======
- }
->>>>>>> 42e749c402b46f89757f67669813af328d9c6e5e
 }
 }
