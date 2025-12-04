@@ -32,7 +32,7 @@ public class Client implements ClientInterface {
 
     if (!connectToServer()) {
         JOptionPane.showMessageDialog(
-            null, // FIX 2: Changed 'Null' to 'null'
+            null, 
             "Failed to connect to server.",
             "Connection Error",
             JOptionPane.ERROR_MESSAGE
@@ -57,11 +57,8 @@ public class Client implements ClientInterface {
                 closeConnection();
                 return;
             }
-            // FIX 1: The 'continue;' is removed from here.
-            // If the user selects 'No' to exit, the code proceeds normally to the switch statement.
+        
         }
-
-        // Only proceed if a choice was actually made (i.e., not a cancelled dialog)
         if (choice != null) {
             switch (choice) {
                 case "1":
@@ -83,7 +80,7 @@ public class Client implements ClientInterface {
                     JOptionPane.showMessageDialog(null, "Goodbye!");
                     closeConnection();
                     return;
-                case "default": // FIX 3: Changed 'Default' to 'default'
+                case "default": 
                     JOptionPane.showMessageDialog(null, "Invalid option. Please try again.");
             }
         }
@@ -120,7 +117,7 @@ public class Client implements ClientInterface {
 
         int port = portStr.isEmpty() ? 12345 : Integer.parseInt(portStr);
 
-        // Assuming 'socket', 'in', and 'out' are class-level variables
+
         socket = new Socket(host, port);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
@@ -188,7 +185,7 @@ public class Client implements ClientInterface {
 
    if (option == JOptionPane.OK_OPTION) {
        try {
-           out.println("1"); // tell server we want to create user
+           out.println("1"); 
 
 
            out.println(usernameField.getText());
@@ -244,35 +241,32 @@ private void removeUser() {
    }
 }
     public void login() {
-    // Assuming 'loggedIn', 'currentUser', 'in', 'out' are class members
     try {
         out.println("3");
 
-        // 1. Get Username
         String prompt = in.readLine();
         String username = JOptionPane.showInputDialog(null, prompt, "Login", JOptionPane.QUESTION_MESSAGE);
         
-        // Handle user cancellation
+
         if (username == null) return; 
 
         out.println(username);
 
-        // 2. Get Password
+
         prompt = in.readLine();
         String password = JOptionPane.showInputDialog(null, prompt, "Login", JOptionPane.QUESTION_MESSAGE);
         
-        // Handle user cancellation
+
         if (password == null) return; 
         
         out.println(password);
 
-        // 3. Read Result and Update State
+ 
         String result = in.readLine();
 
         JOptionPane.showMessageDialog(null, result, "Login Status", JOptionPane.INFORMATION_MESSAGE);
 
         if (result.contains("successful")) {
-            // Assuming these are class-level boolean and String variables
             loggedIn = true; 
             currentUser = username;
         }
@@ -346,7 +340,6 @@ public void closeConnection() {
         if (out != null) out.close();
         if (in != null) in.close();
         if (socket != null) socket.close();
-        // Assuming 'scanner' is a class member used for console input
         if (scanner != null) scanner.close(); 
     } catch (IOException e) {
         // Ignore
