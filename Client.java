@@ -98,7 +98,7 @@ public class Client implements ClientInterface {
            String host = JOptionPane.showInputDialog(
 		null, 
              "Enter server host (localhost):",
-             “Server Connection”,
+             "Server Connection",
              JOptionPane.QUESTION_MESSAGE
        );
 
@@ -310,7 +310,6 @@ public void createUser() {
        }
    }
 }
-
 
 private void removeUser() {
    JTextField usernameField = new JTextField();
