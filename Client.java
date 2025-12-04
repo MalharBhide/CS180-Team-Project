@@ -14,7 +14,6 @@ public class Client implements ClientInterface {
    private Socket socket;
    private BufferedReader in;
    private PrintWriter out;
-   private Scanner scanner;
    private boolean loggedIn = false;
    private String currentUser = null;
 
@@ -57,14 +56,13 @@ public class Client implements ClientInterface {
 			JOptionPane.YES_NO_OPTION
 		);
 
-
 	   if (confirm == JOptionPane.YES_OPTION) { 
 		JOptionPane.showMessageDialog(null, "Goodbye!");
 		closeConnection();
 		return;
 	   }
 		continue;
-          
+        }  
            switch (choice) {
                case "1":
                    createUser();
@@ -90,7 +88,6 @@ public class Client implements ClientInterface {
            }
        }
    }
-
 
    public boolean connectToServer() {
        try {
@@ -348,5 +345,4 @@ private void removeUser() {
        }
    }
  }
-}
 }
