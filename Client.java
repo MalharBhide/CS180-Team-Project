@@ -27,8 +27,8 @@ public class Client implements ClientInterface {
    public void start() {
        JOptionPane.showMessageDialog(
       	     null,
-	     “Restaurant Reservation System”,
-	     “Welcome”,
+	     "Restaurant Reservation System",
+	     "Welcome",
       	     JOptionPane.INFORMATION_MESSAGE
 	);
 
@@ -36,8 +36,8 @@ public class Client implements ClientInterface {
        if (!connectToServer()) {
 	    JOptionPane.showMessageDialog(
 	    	 Null,
-	    	 “Failed to connect to server.”,
-	   	 “Connection Error”,
+	    	 "Failed to connect to server.",
+	   	 "Connection Error",
 	   	 JOptionPane.ERROR_MESSAGE
 	    );
            return;
@@ -52,14 +52,14 @@ public class Client implements ClientInterface {
 	    if (choice == null) {
 		int confirm = JOptionPane.showConfirmDialog (
 			null, 
-			“Are you sure you want to exit?”,
-			“Confirm Exit”,
+			"Are you sure you want to exit?",
+			"Confirm Exit",
 			JOptionPane.YES_NO_OPTION
 		);
 
 
 	   if (confirm == JOptionPane.YES_OPTION) { 
-		JOptionPane.showMessageDialog(null, “Goodbye!”);
+		JOptionPane.showMessageDialog(null, "Goodbye!");
 		closeConnection();
 		return;
 	   }
@@ -82,7 +82,7 @@ public class Client implements ClientInterface {
                    cancelReservation();
                    break;
                case "6":
-                   JOptionPane.showMessageDialog(null, “Goodbye!”);
+                   JOptionPane.showMessageDialog(null, "Goodbye!");
 		      closeConnection();
 		      return;
                Default:
@@ -153,17 +153,17 @@ public class Client implements ClientInterface {
 
 
        String[] options = {
-		“Create User Account”,
-		“Remove User Account", 
-		“Login",
-		“Create Reservation",
-		“Cancel Reservation", 
-		“Exit"
+		"Create User Account",
+		"Remove User Account", 
+		"Login",
+		"Create Reservation",
+		"Cancel Reservation", 
+		"Exit"
        };
 	int choice = JOptionPane.showOptionDialog(
 null, 
-“Please select and option:”,
-“Main Menu”,
+"Please select and option:",
+"Main Menu",
 JOptionPane.DEFAULT_OPTION, 
 JOptionPane.QUESTION_MESSAGE,
 null,
@@ -229,16 +229,16 @@ options[0]
            out.println("3"); // logging in
           
            String prompt = in.readLine();
-           String password = JOptionPane.showInputDialog(null, prompt, “Login”, JOptionPane.QUESTION_MESSAGE);
+           String password = JOptionPane.showInputDialog(null, prompt, "Login", JOptionPane.QUESTION_MESSAGE);
            out.println(username);
           
            prompt = in.readLine();
-           String password = JOptionPane.showInputDialog(null, prompt, “Login”, JOptionPane.QUESTION_MESSAGE);
+           String password = JOptionPane.showInputDialog(null, prompt, "Login", JOptionPane.QUESTION_MESSAGE);
            out.println(password);
           
            String result = in.readLine();
            
-	    JOptionPane.showMessageDialog(null, result, “Login Status”, JOPtionPane.INFORMATION_MESSAGE);
+	    JOptionPane.showMessageDialog(null, result, "Login Status", JOPtionPane.INFORMATION_MESSAGE);
           
            if (result.contains("successful")) {
                loggedIn = true;
@@ -246,8 +246,8 @@ options[0]
            }
           
        } catch (IOException e) {
-           JOptionPane.showMessageDIalog(null, “Error during login: “ + e.getMessage(),
-	    “Login Error”, JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDIalog(null, "Error during login: " + e.getMessage(),
+	    "Login Error", JOptionPane.ERROR_MESSAGE);
        }
    }
 
@@ -319,8 +319,6 @@ options[0]
        }
    }
 }
-
-
 
 
 public void createUser() {
