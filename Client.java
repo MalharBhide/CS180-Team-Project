@@ -2,6 +2,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 import javax.swing.*;
+import java.awt.*; 
+import java.awt.event.*; 
 
 /**
  * CS 180 team project 1
@@ -20,7 +22,33 @@ public class Client implements ClientInterface {
     public static void main(String[] args) {
         new Client().start();
     }
-
+    public void run() {
+        JFrame frame = new JFrame("Restaurant Reservation System Client");
+        frame.setSize(400, 300);
+        JPanel panel = new JPanel();
+        JButton createUserButton = new JButton("Create User");
+        createUserButton.addActionListener(e -> createUser());
+        JButton removeUserButton = new JButton("Remove User");
+        removeUserButton.addActionListener(e -> removeUser());
+        JButton loginButton = new JButton("Login");
+        loginButton.addActionListener(e -> login());
+        JButton createReservationButton = new JButton("Create Reservation");
+        createReservationButton.addActionListener(e -> createReservation());
+        JButton cancelReservationButton = new JButton("Cancel Reservation");
+        cancelReservationButton.addActionListener(e -> cancelReservation());
+        JButton closeButton = new JButton("Close");
+        closeButton.addActionListener(e -> {
+            closeConnection();
+            frame.dispose();
+        });
+        panel.add(closeButton);
+        panel.add(cancelReservationButton);
+        panel.add(createReservationButton);
+        panel.add(loginButton);
+        panel.add(removeUserButton);
+        panel.add(createUserButton);
+        frame.add(panel);
+    }
     public void start() {
     JOptionPane.showMessageDialog(
         null,
@@ -38,6 +66,7 @@ public class Client implements ClientInterface {
         );
         return;
     }
+    run();
 
     // Main menu
     while (true) {
