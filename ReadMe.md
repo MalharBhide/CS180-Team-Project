@@ -130,7 +130,7 @@ Command-line client interface to connect to the server. Provides a menu for user
 7. View My Reservations
 
 ### New Feature:
-Allows logged-in users to retrieve a list of their reservations from the server and display them in the console.
+Implemented a GUI for the user to interact with the program.
 
 ### Testing:
 Tested manually to confirm proper communication with the server, correct menu navigation, validation of user input, and receipt of accurate reservation data.
