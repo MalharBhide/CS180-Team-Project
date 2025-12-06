@@ -24,7 +24,7 @@ public class Client implements ClientInterface {
         new Client().start();
     }
     public void run() {
-        JFrame frame = new JFrame("Restaurant Reservation System Client");
+        frame = new JFrame("Restaurant Reservation System Client");
         frame.setSize(400, 300);
         JPanel panel = new JPanel();
         JButton createUserButton = new JButton("Create User");

@@ -1,21 +1,25 @@
 import java.io.*;
 import java.net.*;
+import java.util.List;
 
-/**
- * Team 1 Project
- * Server class that handles multiple client connections for user and reservation management.
- *
- * @author Malhar Bhide
- * @version Nov 24th, 2025
+/** * Team 1 Project 
+ * * Server class that handles multiple client connections for user and reservation management. 
+ * 
+ * @author Malhar Bhide 
+ * @version Nov 24th, 2025 
  */
 public class Server implements Runnable, ServerInterface {
-    private Database db = new Database(); // instance of Database
+
+    private Database db = new Database();      // database instance
     private static final Seating seating = new Seating();
+
     public static void main(String[] args) {
         new Thread(new Server()).start();
     }
-    public void run() { // server runs on its own thread
-        // Load data at server startup
+
+    @Override
+    public void run() {
+        // Load initial data
         db.loadUsers();
         db.loadReservations();
 
@@ -25,15 +29,14 @@ public class Server implements Runnable, ServerInterface {
             while (true) {
                 Socket socket = serverSocket.accept();
                 System.out.println("Client connected: " + socket.getInetAddress());
-
-                // Handle each client in its own thread
                 new Thread(() -> handleClient(socket)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void handleClient(Socket socket) { 
+
+    public void handleClient(Socket socket) {
         boolean loginSuccess = false;
         String loggedInUser = null;
 
@@ -47,23 +50,26 @@ public class Server implements Runnable, ServerInterface {
                     case "1": // Create User
                         out.println("Enter a Username:");
                         String username = in.readLine();
-                        boolean duplicate = false;
-                        synchronized (db.getUserList()) {
-                            for (User u : db.getUserList()) {
-                                if (u.getUsername().equals(username)) {
-                                    duplicate = true;
-                                    break;
+                        while (true) {
+                            boolean duplicate = false;
+                            synchronized (db.getUserList()) {
+                                for (User u : db.getUserList()) {
+                                    if (u.getUsername().equals(username)) {
+                                        duplicate = true;
+                                        break;
+                                    }
                                 }
                             }
+                            if (!duplicate) break;
+                            out.println("Username already exists. Enter again:");
+                            username = in.readLine();
                         }
-                        if (duplicate) break;
-                        out.println("Username already exists. Enter again:");
-                        username = in.readLine();
                         out.println("Enter a Password:");
                         String password = in.readLine();
                         db.addUser(new User(username, password));
                         out.println("User created successfully!");
                         break;
+
                     case "2": // Remove User
                         out.println("Enter Username to remove:");
                         String userToRemove = in.readLine();
@@ -72,8 +78,9 @@ public class Server implements Runnable, ServerInterface {
 
                         boolean removed = false;
                         synchronized (db.getUserList()) {
-                            for (int i = 0; i < db.getUserList().size(); i++) {
-                                User u = db.getUserList().get(i);
+                            List<User> users = db.getUserList();
+                            for (int i = 0; i < users.size(); i++) {
+                                User u = users.get(i);
                                 if (u.getUsername().equals(userToRemove) &&
                                     u.getPassword().equals(passToRemove)) {
                                     db.removeUser(u);
@@ -82,7 +89,7 @@ public class Server implements Runnable, ServerInterface {
                                 }
                             }
                         }
-                        out.println(removed ? "User removed successfully!"
+                        out.println(removed ? "User removed successfully!" 
                                             : "User not found or incorrect password.");
                         break;
 
@@ -113,17 +120,21 @@ public class Server implements Runnable, ServerInterface {
                             break;
                         }
 
-                        out.println("Enter reservation time (e.g., 6:00PM):");
+                        out.println("Enter reservation time (e.g., 6:00pm) Our hours are 9:00am-9:00pm:");
                         String time = in.readLine();
                         out.println("Enter day:");
                         String day = in.readLine();
-
                         int partySize = 0;
                         out.println("Enter party size:");
-                        try {
-                            partySize = Integer.parseInt(in.readLine());
-                            if (partySize <= 0) break;
-                        } catch (NumberFormatException e) {}                   
+                        while (true) {
+                            try {
+                                partySize = Integer.parseInt(in.readLine());
+                                if (partySize > 0) break;
+                            } catch (NumberFormatException e) {
+                                out.println("Invalid number. Enter party size again:");
+                            }
+                        }
+
                         Reservation newReservation = new Reservation(time, day, partySize, seating);
                         newReservation.setUsername(loggedInUser);
                         newReservation.bookReservation();
@@ -145,8 +156,9 @@ public class Server implements Runnable, ServerInterface {
 
                         boolean found = false;
                         synchronized (db.getReservations()) {
-                            for (int i = 0; i < db.getReservations().size(); i++) {
-                                Reservation r = db.getReservations().get(i);
+                            List<Reservation> reservations = db.getReservations();
+                            for (int i = 0; i < reservations.size(); i++) {
+                                Reservation r = reservations.get(i);
                                 if (r.getDay().equalsIgnoreCase(cancelDay) &&
                                     r.getTime().equalsIgnoreCase(cancelTime) &&
                                     loggedInUser.equals(r.getUsername())) {
@@ -157,12 +169,12 @@ public class Server implements Runnable, ServerInterface {
                                 }
                             }
                         }
-
-                        out.println(found ? "Reservation canceled successfully!"
+                        out.println(found ? "Reservation canceled successfully!" 
                                           : "No reservation found for that time/day.");
                         break;
 
                     case "6": // Exit
+                        out.println("Exiting. Goodbye!");
                         socket.close();
                         return;
 
@@ -170,6 +182,7 @@ public class Server implements Runnable, ServerInterface {
                         out.println("Invalid option. Try again.");
                 }
             }
+
         } catch (IOException e) {
             System.out.println("Client disconnected.");
         }
