@@ -56,9 +56,10 @@ public class Server implements Runnable, ServerInterface {
                                 }
                             }
                         }
-                        if (duplicate) break;
-                        out.println("Username already exists. Enter again:");
-                        username = in.readLine();
+                        if (duplicate) {
+                            out.println("Username already exists. Enter again:");
+                            username = in.readLine();
+                        }
                         out.println("Enter a Password:");
                         String password = in.readLine();
                         db.addUser(new User(username, password));
