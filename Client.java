@@ -17,7 +17,8 @@ public class Client implements ClientInterface {
     private BufferedReader in;
     private PrintWriter out;
     private boolean loggedIn = false;
-    private String currentUser = null; 
+    private String currentUser = null;
+    private JFrame frame; 
 
     public static void main(String[] args) {
         new Client().start();
@@ -86,7 +87,7 @@ public class Client implements ClientInterface {
             }
             String portStr = JOptionPane.showInputDialog(
                 null,
-                "Enter server port (12345):",
+                "Enter server port (1245):",
                 "Server Connection",
                 JOptionPane.QUESTION_MESSAGE
             );
