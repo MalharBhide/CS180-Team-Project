@@ -87,7 +87,7 @@ public class Client implements ClientInterface {
             }
             String portStr = JOptionPane.showInputDialog(
                 null,
-                "Enter server port (1245):",
+                "Enter server port (12345):",
                 "Server Connection",
                 JOptionPane.QUESTION_MESSAGE
             );
@@ -257,7 +257,7 @@ public void createReservation() {
 
 public void cancelReservation() {
     if (!loggedIn) {
-        JOptionPane.showMessageDialog(null, "Please login first!");
+        JOptionPane.showMessageDialog(null, "Please login first!", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
