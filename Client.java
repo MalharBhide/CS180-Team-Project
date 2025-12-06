@@ -42,157 +42,78 @@ public class Client implements ClientInterface {
             closeConnection();
             frame.dispose();
         });
-        panel.add(closeButton);
-        panel.add(cancelReservationButton);
-        panel.add(createReservationButton);
-        panel.add(loginButton);
-        panel.add(removeUserButton);
         panel.add(createUserButton);
+        panel.add(removeUserButton);
+        panel.add(loginButton);
+        panel.add(createReservationButton);
+        panel.add(cancelReservationButton);
+        panel.add(closeButton);
         frame.add(panel);
     }
     public void start() {
-    JOptionPane.showMessageDialog(
-        null,
-        "Restaurant Reservation System",
-        "Welcome",
-        JOptionPane.INFORMATION_MESSAGE
-    );
-
-    if (!connectToServer()) {
-        JOptionPane.showMessageDialog(
-            null, 
-            "Failed to connect to server.",
-            "Connection Error",
-            JOptionPane.ERROR_MESSAGE
-        );
-        return;
-    }
-    run();
-
-    // Main menu
-    while (true) {
-        String choice = showMainMenu();
-
-        if (choice == null) {
-            int confirm = JOptionPane.showConfirmDialog(
-                null,
-                "Are you sure you want to exit?",
-                "Confirm Exit",
-                JOptionPane.YES_NO_OPTION
-            );
-
-            if (confirm == JOptionPane.YES_OPTION) {
-                JOptionPane.showMessageDialog(null, "Goodbye!");
-                closeConnection();
-                return;
-            }
-        
-        }
-        if (choice != null) {
-            switch (choice) {
-                case "1":
-                    createUser();
-                    break;
-                case "2":
-                    removeUser();
-                    break;
-                case "3":
-                    login();
-                    break;
-                case "4":
-                    createReservation();
-                    break;
-                case "5":
-                    cancelReservation();
-                    break;
-                case "6":
-                    JOptionPane.showMessageDialog(null, "Goodbye!");
-                    closeConnection();
-                    return;
-                case "default": 
-                    JOptionPane.showMessageDialog(null, "Invalid option. Please try again.");
-            }
-        }
-    }
-}
-
-    public boolean connectToServer() {
-    try {
-        String host = JOptionPane.showInputDialog(
-            null,
-            "Enter server host (localhost):",
-            "Server Connection",
-            JOptionPane.QUESTION_MESSAGE
-        );
-
-        if (host == null) {
-            return false;
-        }
-
-        if (host.trim().isEmpty()) {
-            host = "localhost";
-        }
-
-        String portStr = JOptionPane.showInputDialog(
-            null,
-            "Enter server port (1245):",
-            "Server Connection",
-            JOptionPane.QUESTION_MESSAGE
-        );
-
-        if (portStr == null) {
-            return false;
-        }
-
-        int port = portStr.isEmpty() ? 12345 : Integer.parseInt(portStr);
-
-
-        socket = new Socket(host, port);
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        out = new PrintWriter(socket.getOutputStream(), true);
-
         JOptionPane.showMessageDialog(
             null,
-            "Connected to server successfully!",
-            "Success",
+            "Restaurant Reservation System",
+            "Welcome",
             JOptionPane.INFORMATION_MESSAGE
         );
-        return true;
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(
-            null,
-            "Failed to connect to server: " + e.getMessage(),
-            "Connection Error",
-            JOptionPane.ERROR_MESSAGE
-        );
-        return false;
+        if (!connectToServer()) {
+            JOptionPane.showMessageDialog(
+                null, 
+                "Failed to connect to server.",
+                "Connection Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        run();
     }
-}
 
-    private String showMainMenu() {
+    public boolean connectToServer() {
+        try {
+            String host = JOptionPane.showInputDialog(
+                null,
+                "Enter server host (localhost):",
+                "Server Connection",
+                JOptionPane.QUESTION_MESSAGE
+            );
+            if (host == null) {
+                return false;
+            }
+            if (host.trim().isEmpty()) {
+                host = "localhost";
+            }
+            String portStr = JOptionPane.showInputDialog(
+                null,
+                "Enter server port (1245):",
+                "Server Connection",
+                JOptionPane.QUESTION_MESSAGE
+            );
 
-    String[] options = {
-        "Create User Account", 
-        "Remove User Account", 
-        "Login",               
-        "Create Reservation",  
-        "Cancel Reservation",  
-        "Exit"                 
-    };
-    
-    int choice = JOptionPane.showOptionDialog(
-        null,
-        "Please select an option:", 
-        "Main Menu",               
-        JOptionPane.DEFAULT_OPTION,
-        JOptionPane.QUESTION_MESSAGE,
-        null,
-        options,
-        options[0]
-    );
-    return (choice == -1) ? null : String.valueOf(choice + 1);
-}
+            if (portStr == null) {
+                return false;
+            }
+            int port = portStr.isEmpty() ? 12345 : Integer.parseInt(portStr);
+            socket = new Socket(host, port);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
+            JOptionPane.showMessageDialog(
+                null,
+                "Connected to server successfully!",
+                "Success",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                null,
+                "Failed to connect to server: " + e.getMessage(),
+                "Connection Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return false;
+        }
+    }
     public void createUser() {
    JTextField usernameField = new JTextField();
    JPasswordField passwordField = new JPasswordField();
@@ -214,17 +135,14 @@ public class Client implements ClientInterface {
 
    if (option == JOptionPane.OK_OPTION) {
        try {
-           out.println("1"); 
+            out.println("1"); 
 
-
-           out.println(usernameField.getText());
-           out.println(new String(passwordField.getPassword()));
-
-
-           String result = in.readLine();
-           JOptionPane.showMessageDialog(null, result);
-
-
+            in.readLine();
+            out.println(usernameField.getText());
+            in.readLine();
+            out.println(new String(passwordField.getPassword()));
+            String result = in.readLine();
+            JOptionPane.showMessageDialog(null, result);
        } catch (Exception e) {
            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
        }
@@ -253,17 +171,13 @@ private void removeUser() {
 
    if (option == JOptionPane.OK_OPTION) {
        try {
-           out.println("2"); // delete user
-
-
-           out.println(usernameField.getText());
-           out.println(new String(passwordField.getPassword()));
-
-
-           String result = in.readLine();
-           JOptionPane.showMessageDialog(null, result);
-
-
+            out.println("2"); // delete user
+            in.readLine();
+            out.println(usernameField.getText());
+            in.readLine();
+            out.println(new String(passwordField.getPassword()));
+            String result = in.readLine();
+            JOptionPane.showMessageDialog(null, result);
        } catch (Exception e) {
            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
        }

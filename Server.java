@@ -47,29 +47,23 @@ public class Server implements Runnable, ServerInterface {
                     case "1": // Create User
                         out.println("Enter a Username:");
                         String username = in.readLine();
-
-                        while (true) {
-                            boolean duplicate = false;
-                            synchronized (db.getUserList()) {
-                                for (User u : db.getUserList()) {
-                                    if (u.getUsername().equals(username)) {
-                                        duplicate = true;
-                                        break;
-                                    }
+                        boolean duplicate = false;
+                        synchronized (db.getUserList()) {
+                            for (User u : db.getUserList()) {
+                                if (u.getUsername().equals(username)) {
+                                    duplicate = true;
+                                    break;
                                 }
                             }
-                            if (!duplicate) break;
-
-                            out.println("Username already exists. Enter again:");
-                            username = in.readLine();
                         }
-
+                        if (!duplicate) break;
+                        out.println("Username already exists. Enter again:");
+                        username = in.readLine();
                         out.println("Enter a Password:");
                         String password = in.readLine();
                         db.addUser(new User(username, password));
                         out.println("User created successfully!");
                         break;
-
                     case "2": // Remove User
                         out.println("Enter Username to remove:");
                         String userToRemove = in.readLine();
@@ -125,14 +119,11 @@ public class Server implements Runnable, ServerInterface {
                         String day = in.readLine();
 
                         int partySize = 0;
-                        while (true) {
-                            out.println("Enter party size:");
-                            try {
-                                partySize = Integer.parseInt(in.readLine());
-                                if (partySize > 0) break;
-                            } catch (NumberFormatException e) {}
-                        }
-
+                        out.println("Enter party size:");
+                        try {
+                            partySize = Integer.parseInt(in.readLine());
+                            if (partySize > 0) break;
+                        } catch (NumberFormatException e) {}                   
                         Reservation newReservation = new Reservation(time, day, partySize, seating);
                         newReservation.setUsername(loggedInUser);
                         newReservation.bookReservation();
@@ -172,7 +163,6 @@ public class Server implements Runnable, ServerInterface {
                         break;
 
                     case "6": // Exit
-                        out.println("Exiting the system. Goodbye!");
                         socket.close();
                         return;
 
