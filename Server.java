@@ -56,7 +56,7 @@ public class Server implements Runnable, ServerInterface {
                                 }
                             }
                         }
-                        if (!duplicate) break;
+                        if (duplicate) break;
                         out.println("Username already exists. Enter again:");
                         username = in.readLine();
                         out.println("Enter a Password:");
@@ -122,7 +122,7 @@ public class Server implements Runnable, ServerInterface {
                         out.println("Enter party size:");
                         try {
                             partySize = Integer.parseInt(in.readLine());
-                            if (partySize > 0) break;
+                            if (partySize <= 0) break;
                         } catch (NumberFormatException e) {}                   
                         Reservation newReservation = new Reservation(time, day, partySize, seating);
                         newReservation.setUsername(loggedInUser);

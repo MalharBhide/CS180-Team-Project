@@ -49,6 +49,8 @@ public class Client implements ClientInterface {
         panel.add(cancelReservationButton);
         panel.add(closeButton);
         frame.add(panel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
     public void start() {
         JOptionPane.showMessageDialog(
