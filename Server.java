@@ -122,7 +122,7 @@ public class Server implements Runnable, ServerInterface {
 
                         out.println("Enter reservation time (e.g., 6:00pm) Our hours are 9:00am-9:00pm:");
                         String time = in.readLine();
-                        out.println("Enter day:");
+                        out.println("Enter day (You can book up to 7 days in advance Monday-Sunday):");
                         String day = in.readLine();
                         int partySize = 0;
                         out.println("Enter party size:");
