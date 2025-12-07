@@ -120,7 +120,7 @@ public class Seating implements SeatInterface {
         }
 
         System.out.println("\nSeat layout for " + day + " at " + time);
-        System.out.println("[O] = Open   [X] = Taken\n");
+        System.out.println("[O] = Open table   [X] = Taken table\n");
 
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
