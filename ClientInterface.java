@@ -6,7 +6,7 @@
 *
 */
 public interface ClientInterface {
-    void start();
+    void run();
     boolean connectToServer();
     void createUser();
     void login(); 
