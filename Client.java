@@ -320,7 +320,9 @@ public class Client implements ClientInterface {
 
     public void run() {
         frame = new JFrame("Restaurant Reservation System Client");
-        frame.setSize(400, 300);
+        frame.setSize(800, 400);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
         JPanel panel = new JPanel();
 
         JButton createUserButton = new JButton("Create User");
